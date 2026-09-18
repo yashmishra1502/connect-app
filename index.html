@@ -41,7 +41,6 @@ body{
 ::-webkit-scrollbar{width:8px;}
 ::-webkit-scrollbar-thumb{background:rgba(90,130,220,0.3);border-radius:8px;}
 
-/* ---------- star field ---------- */
 #stars{
   position:fixed;inset:0;z-index:0;pointer-events:none;
   background:
@@ -64,13 +63,11 @@ body{
 .glow-1{width:500px;height:500px;background:var(--accent);top:-150px;left:-100px;}
 .glow-2{width:420px;height:420px;background:var(--accent-3);bottom:-120px;right:-80px;opacity:.22;}
 
-/* ---------- layout helpers ---------- */
 .wrap{max-width:1240px;margin:0 auto;padding:0 24px;position:relative;z-index:1;}
 .hidden{display:none !important;}
 a{color:inherit;text-decoration:none;}
 button{font-family:inherit;cursor:pointer;}
 
-/* ---------- navbar ---------- */
 header.nav{
   position:sticky;top:0;z-index:50;
   padding:14px 0;
@@ -123,7 +120,6 @@ nav.links a.active{color:#fff;background:rgba(59,130,246,.18);box-shadow:inset 0
 .identity small{font-size:10.5px;color:var(--text-faint);}
 .senior-tag{font-size:9.5px;background:rgba(34,211,238,.15);color:var(--accent-2);border:1px solid rgba(34,211,238,.35);padding:1px 6px;border-radius:6px;margin-left:5px;vertical-align:1px;}
 
-/* dropdown */
 .dropdown{position:relative;}
 .dropdown-menu{
   position:absolute;top:calc(100% + 10px);right:0;min-width:210px;
@@ -134,7 +130,6 @@ nav.links a.active{color:#fff;background:rgba(59,130,246,.18);box-shadow:inset 0
 .dropdown-menu a:hover,.dropdown-menu button:hover{background:rgba(255,255,255,.05);color:#fff;}
 .dropdown-menu hr{border:none;border-top:1px solid var(--border);margin:6px 0;}
 
-/* ---------- generic view/section ---------- */
 .view{display:none;padding:40px 0 80px;}
 .view.active{display:block;}
 .section-head{margin-bottom:28px;}
@@ -148,7 +143,6 @@ nav.links a.active{color:#fff;background:rgba(59,130,246,.18);box-shadow:inset 0
   backdrop-filter:blur(10px);
 }
 
-/* ---------- hero ---------- */
 .hero{padding:70px 0 40px;text-align:center;position:relative;}
 .hero-emblem{
   width:78px;height:78px;margin:0 auto 22px;border-radius:22px;
@@ -169,7 +163,6 @@ nav.links a.active{color:#fff;background:rgba(59,130,246,.18);box-shadow:inset 0
 .hero-actions .btn{padding:13px 26px;font-size:14.5px;}
 .hero-notes{display:flex;justify-content:space-between;max-width:760px;margin:0 auto;color:var(--text-faint);font-size:12.5px;line-height:1.7;font-style:italic;}
 
-/* feature cards */
 .features{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:10px;}
 .feature-card{padding:22px 18px;text-align:left;transition:.25s;cursor:default;}
 .feature-card:hover{transform:translateY(-4px);border-color:var(--border-strong);box-shadow:0 16px 40px rgba(59,130,246,.12);}
@@ -177,7 +170,6 @@ nav.links a.active{color:#fff;background:rgba(59,130,246,.18);box-shadow:inset 0
 .feature-card h3{font-size:14.5px;font-weight:700;margin-bottom:6px;}
 .feature-card p{font-size:12.5px;color:var(--text-dim);line-height:1.5;}
 
-/* generic post card */
 .post-card{padding:18px 20px;margin-bottom:14px;transition:.2s;cursor:pointer;}
 .post-card:hover{border-color:var(--border-strong);}
 .post-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
@@ -198,13 +190,11 @@ nav.links a.active{color:#fff;background:rgba(59,130,246,.18);box-shadow:inset 0
 .bookmark-btn{background:none;border:none;color:var(--text-dim);font-size:14px;}
 .bookmark-btn.active{color:var(--accent-2);}
 
-/* empty state */
 .empty-state{padding:48px 24px;text-align:center;}
 .empty-state .icon{font-size:34px;margin-bottom:14px;}
 .empty-state h4{font-size:16px;font-weight:700;margin-bottom:6px;}
 .empty-state p{font-size:13px;color:var(--text-dim);margin-bottom:18px;}
 
-/* discussions layout */
 .disc-layout{display:grid;grid-template-columns:200px 1fr 280px;gap:22px;align-items:start;}
 .tab-list{display:flex;flex-direction:column;gap:4px;position:sticky;top:100px;}
 .tab-item{padding:10px 14px;border-radius:10px;font-size:13px;color:var(--text-dim);font-weight:500;text-align:left;background:none;border:1px solid transparent;}
@@ -220,14 +210,12 @@ nav.links a.active{color:#fff;background:rgba(59,130,246,.18);box-shadow:inset 0
 .stat-box b{display:block;font-size:19px;font-family:var(--font-display);color:var(--accent-2);}
 .stat-box span{font-size:10.5px;color:var(--text-faint);}
 
-/* ask button floating */
 .ask-fab{
   display:flex;align-items:center;gap:8px;padding:11px 20px;border-radius:12px;
   background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#031024;font-weight:700;font-size:13.5px;
   border:none;box-shadow:0 10px 30px rgba(59,130,246,.35);margin-bottom:20px;width:100%;justify-content:center;
 }
 
-/* modal */
 .overlay{position:fixed;inset:0;background:rgba(2,8,20,.72);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;}
 .modal{
   background:var(--card-solid);border:1px solid var(--border);border-radius:18px;
@@ -256,7 +244,6 @@ nav.links a.active{color:#fff;background:rgba(59,130,246,.18);box-shadow:inset 0
 .interest-chip{padding:9px 15px;border-radius:999px;border:1px solid var(--border);font-size:12.5px;color:var(--text-dim);cursor:pointer;}
 .interest-chip.sel{border-color:var(--accent-2);background:rgba(34,211,238,.12);color:#fff;}
 
-/* ---------- improved auth UI ---------- */
 .field-wrap{position:relative;}
 .field-wrap input{padding-right:42px !important;}
 .pw-toggle{
@@ -302,7 +289,6 @@ nav.links a.active{color:#fff;background:rgba(59,130,246,.18);box-shadow:inset 0
 .avatar-opt{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:12px;color:#031024;cursor:pointer;border:2px solid transparent;}
 .avatar-opt.sel{border-color:#fff;box-shadow:0 0 0 2px var(--accent);}
 
-/* ---------- sort tabs / leaderboard / DM / markdown / extras ---------- */
 .sort-tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
 .sort-tabs button{padding:7px 14px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.02);color:var(--text-dim);font-size:12.5px;font-weight:600;}
 .sort-tabs button.active{color:#fff;background:rgba(59,130,246,.18);border-color:var(--border-strong);}
@@ -336,7 +322,6 @@ nav.links a.active{color:#fff;background:rgba(59,130,246,.18);box-shadow:inset 0
 .md-toolbar button{padding:5px 9px;border-radius:6px;border:1px solid var(--border);background:rgba(255,255,255,.02);color:var(--text-dim);font-size:12px;font-weight:700;}
 @media(max-width:820px){.dm-layout{grid-template-columns:1fr;} .dm-convo-list{max-height:200px;}}
 
-/* post detail */
 .pd-header{padding:24px;margin-bottom:18px;}
 .answer-card{padding:16px 18px;margin-bottom:12px;border-left:2px solid transparent;}
 .answer-card.best{border-left-color:var(--up);background:rgba(52,211,153,.06);}
@@ -347,7 +332,6 @@ nav.links a.active{color:#fff;background:rgba(59,130,246,.18);box-shadow:inset 0
 .mark-best-btn{font-size:11.5px;color:var(--text-dim);border:1px solid var(--border);padding:4px 10px;border-radius:8px;background:none;}
 .mark-best-btn:hover{color:#fff;border-color:var(--border-strong);}
 
-/* profile */
 .profile-head{display:flex;gap:20px;align-items:center;padding:26px;margin-bottom:20px;flex-wrap:wrap;}
 .avatar-lg{width:74px;height:74px;border-radius:50%;font-size:26px;}
 .profile-head h2{font-family:var(--font-display);font-size:22px;}
@@ -356,7 +340,6 @@ nav.links a.active{color:#fff;background:rgba(59,130,246,.18);box-shadow:inset 0
 .profile-tabs button{padding:10px 4px;margin-right:20px;background:none;border:none;color:var(--text-dim);font-size:13.5px;font-weight:600;border-bottom:2px solid transparent;}
 .profile-tabs button.active{color:#fff;border-color:var(--accent-2);}
 
-/* communities / mentors / resources grids */
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
 .comm-card{padding:20px;}
 .comm-card h4{font-size:15.5px;margin-bottom:6px;}
@@ -367,7 +350,6 @@ nav.links a.active{color:#fff;background:rgba(59,130,246,.18);box-shadow:inset 0
 .mentor-card h4{font-size:14.5px;}
 .mentor-card .meta{font-size:12px;color:var(--text-dim);margin:4px 0 12px;}
 
-/* toast */
 #toast-wrap{position:fixed;bottom:24px;right:24px;z-index:200;display:flex;flex-direction:column;gap:10px;}
 .toast{padding:13px 18px;border-radius:10px;background:var(--card-solid);border:1px solid var(--border-strong);font-size:13px;box-shadow:0 15px 40px rgba(0,0,0,.5);animation:toastIn .25s ease;}
 @keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
@@ -407,7 +389,6 @@ footer{border-top:1px solid var(--border);padding:44px 0 0;color:var(--text-fain
 <header class="nav">
   <div class="wrap nav-inner">
     <div class="brand" onclick="go('home')">
-      
       <div class="brand-text">
         <h1> ConnectApp</h1>
         <span>Students • Seniors • Together</span>
@@ -429,7 +410,6 @@ footer{border-top:1px solid var(--border);padding:44px 0 0;color:var(--text-fain
 
 <main class="wrap">
 
-  <!-- HOME -->
   <section class="view active" id="view-home">
     <div class="hero">
       <div id="homeWelcome"></div>
@@ -466,7 +446,6 @@ footer{border-top:1px solid var(--border);padding:44px 0 0;color:var(--text-fain
     <div class="grid-3" id="homeEventsPreview" style="margin-bottom:20px;"></div>
   </section>
 
-  <!-- DISCUSSIONS -->
   <section class="view" id="view-discussions">
     <div class="section-head">
       <h2>Discussions</h2>
@@ -493,13 +472,11 @@ footer{border-top:1px solid var(--border);padding:44px 0 0;color:var(--text-fain
     </div>
   </section>
 
-  <!-- POST DETAIL -->
   <section class="view" id="view-post">
     <button class="btn btn-ghost btn-sm" onclick="go('discussions')" style="margin-bottom:18px;">← Back to Discussions</button>
     <div id="postDetailWrap"></div>
   </section>
 
-  <!-- COMMUNITIES -->
   <section class="view" id="view-communities">
     <div class="section-head" style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;">
       <div>
@@ -511,7 +488,6 @@ footer{border-top:1px solid var(--border);padding:44px 0 0;color:var(--text-fain
     <div class="grid-3" id="communitiesGrid"></div>
   </section>
 
-  <!-- LEADERBOARD -->
   <section class="view" id="view-leaderboard">
     <div class="section-head">
       <h2>Leaderboard</h2>
@@ -520,7 +496,6 @@ footer{border-top:1px solid var(--border);padding:44px 0 0;color:var(--text-fain
     <div id="leaderboardWrap"></div>
   </section>
 
-  <!-- MESSAGES -->
   <section class="view" id="view-messages">
     <div class="section-head">
       <h2>Messages</h2>
@@ -532,7 +507,6 @@ footer{border-top:1px solid var(--border);padding:44px 0 0;color:var(--text-fain
     </div>
   </section>
 
-  <!-- RESOURCES -->
   <section class="view" id="view-resources">
     <div class="section-head">
       <h2>Campus Resources</h2>
@@ -541,7 +515,6 @@ footer{border-top:1px solid var(--border);padding:44px 0 0;color:var(--text-fain
     <div class="grid-3" id="resourcesGrid"></div>
   </section>
 
-  <!-- EVENTS -->
   <section class="view" id="view-events">
     <div class="section-head" style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;">
       <div>
@@ -553,7 +526,6 @@ footer{border-top:1px solid var(--border);padding:44px 0 0;color:var(--text-fain
     <div class="grid-3" id="eventsGrid"></div>
   </section>
 
-  <!-- MENTORS -->
   <section class="view" id="view-mentors">
     <div class="section-head">
       <h2>Find a Senior</h2>
@@ -571,7 +543,6 @@ footer{border-top:1px solid var(--border);padding:44px 0 0;color:var(--text-fain
     <div class="grid-3" id="mentorsGrid"></div>
   </section>
 
-  <!-- PROFILE -->
   <section class="view" id="view-profile">
     <div id="profileWrap"></div>
   </section>
@@ -582,7 +553,6 @@ footer{border-top:1px solid var(--border);padding:44px 0 0;color:var(--text-fain
   <div class="wrap footer-inner">
     <div class="footer-col footer-brand">
       <div class="brand" style="cursor:pointer;" onclick="go('home')">
-        <div class="brand-mark" style="width:34px;height:34px;font-size:12px;">MC</div>
         <div class="brand-text"><h1 style="font-size:15px;"> ConnectApp</h1></div>
       </div>
       <p>A student community by ians, for ians. Not an official university platform.</p>
@@ -606,10 +576,6 @@ footer{border-top:1px solid var(--border);padding:44px 0 0;color:var(--text-fain
 </footer>
 <div id="toast-wrap"></div>
 
-<!-- ============================================================
-     FIREBASE BOOTSTRAP (ES module — exposes helpers on window
-     so the classic script below can call them)
-     ============================================================ -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
   import {
@@ -634,9 +600,6 @@ footer{border-top:1px solid var(--border);padding:44px 0 0;color:var(--text-fain
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = initializeFirestore(app, {
-    /* many networks/antivirus/proxies block Firestore's default streaming
-       (WebChannel) connection — long polling falls back to plain HTTPS
-       requests, which is far more compatible. */
     experimentalAutoDetectLongPolling: true,
     useFetchStreams: false
   });
@@ -677,14 +640,9 @@ footer{border-top:1px solid var(--border);padding:44px 0 0;color:var(--text-fain
 </script>
 
 <script>
-/* ============================================================
-   DATA LAYER — synced with Firebase Firestore in real time.
-   All signed-in users share one Firestore document; Firebase
-   Authentication (not locally-hashed passwords) handles login.
-   ============================================================ */
 let DB = { version:1, users:{}, posts:[], comments:[], notifications:[], bookmarks:{}, events:[] };
 let dbReady = false;
-let firebaseUser = null; /* the Firebase Auth user object, once signed in */
+let firebaseUser = null;
 
 function emptyDB(){ return { version:1, users:{}, posts:[], comments:[], notifications:[], bookmarks:{}, communities:[], messages:[], reports:[], events:[] }; }
 
@@ -704,11 +662,9 @@ function currentUser(){
   return DB.users[firebaseUser.email] || null;
 }
 
-/* Firebase readiness + live sync wiring. init() (bottom of file) is
-   only called once both auth state and the shared DB have loaded. */
 let authKnown = false, dbLoaded = false, appStarted = false;
 function maybeStartApp(){
-  if(appStarted && dbLoaded){ /* re-render on later DB updates */ afterDbUpdate(); return; }
+  if(appStarted && dbLoaded){ afterDbUpdate(); return; }
   if(authKnown && dbLoaded && !appStarted){ appStarted = true; init(); }
 }
 function afterDbUpdate(){
@@ -723,7 +679,6 @@ window.addEventListener('fb-ready', ()=>{
     dbLoaded = true;
     maybeStartApp();
   });
-  /* if the shared doc doesn't exist yet, create it once so onSnapshot has something to watch */
   window.fb.loadSharedDoc().then(data=>{
     if(!data) window.fb.saveSharedDoc(emptyDB());
   }).catch(()=>{});
@@ -746,7 +701,6 @@ function generateUsername(){
 
 const BRANCHES = ["CSE","IT","ECE","EE","ME","Civil","Chemical","Production","Biotechnology","MCA","MBA"];
 const YEARS = ["1st Year","2nd Year","3rd Year","4th Year"];
-/* batch options like 2026-2030 */
 const BATCHES = (function(){
   const out = [];
   const nowY = new Date().getFullYear();
@@ -790,7 +744,6 @@ function notify(email, text, link){
   DB.notifications.unshift({id:crypto.randomUUID(), email, text, link, ts:Date.now(), read:false});
   saveDB(DB);
 }
-/* seniors are derived from year now, not picked at signup */
 function roleForYear(year){
   return (year==='3rd Year' || year==='4th Year') ? 'senior' : 'student';
 }
@@ -801,9 +754,6 @@ const SEED_EVENTS = [
   { id:'seed-3', title:'Hostel Cultural Night', date:'2026-10-05', time:'7:00 PM', location:'Hostel Ground', desc:'Music, dance and food stalls hosted by the hostel committee — open to all years.', creatorEmail:null, creatorName:'Hostel Committee', createdAt:Date.now() }
 ];
 
-/* ============================================================
-   NAV / VIEW ROUTING
-   ============================================================ */
 function go(view, param){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+view).classList.add('active');
@@ -826,9 +776,6 @@ function go(view, param){
   }
 }
 
-/* ============================================================
-   AUTH AREA / NAV RENDER
-   ============================================================ */
 function renderAuthArea(){
   const u = currentUser();
   const area = document.getElementById('authArea');
@@ -893,9 +840,6 @@ function handleJoin(){
   if(currentUser()) go('discussions'); else openAuth('signup');
 }
 
-/* ============================================================
-   AUTH MODAL — Sign Up / Sign In
-   ============================================================ */
 function openAuth(mode){
   closeModal();
   const overlay = document.createElement('div');
@@ -992,7 +936,6 @@ function setBtnLoading(id, loading){
   btn.classList.toggle('loading', loading);
 }
 
-/* ---- live validation helpers (signup) ---- */
 let usernameCheckTimer = null;
 function checkUsernameLive(){
   clearTimeout(usernameCheckTimer);
@@ -1095,7 +1038,7 @@ async function doSignUp(){
   if(DB.users[email]){ showAuthErr('An account with this email already exists.'); return; }
   setBtnLoading('su_submit', true);
   try{
-    firebaseUser = await window.fb.signUp(email, pw); /* Firebase Auth creates + signs in the account */
+    firebaseUser = await window.fb.signUp(email, pw);
     const username = usernameRaw;
     DB.users[email] = {
       email, fullName:name, username, branch, year, batch,
@@ -1135,9 +1078,6 @@ async function doSignIn(){
   }
 }
 
-/* ============================================================
-   FORGOT PASSWORD — sends a real reset link via Firebase Auth
-   ============================================================ */
 function openForgotPassword(){
   closeModal();
   const overlay = document.createElement('div');
@@ -1193,9 +1133,6 @@ function finishOnboarding(){
   go('discussions');
 }
 
-/* ============================================================
-   ASK QUESTION MODAL
-   ============================================================ */
 function openAsk(){
   const u = currentUser();
   if(!u){ toast('Please sign in to ask a question.'); openAuth('signin'); return; }
@@ -1250,9 +1187,6 @@ function submitQuestion(){
   go('post', post.id);
 }
 
-/* ============================================================
-   RENDER: FEATURE CARDS
-   ============================================================ */
 function renderFeatureCards(){
   const feats = [
     {icon:'💬',title:'Ask Questions',text:'Get genuine answers from seniors'},
@@ -1268,9 +1202,6 @@ function renderFeatureCards(){
     </div>`).join('');
 }
 
-/* ============================================================
-   POST CARD RENDER
-   ============================================================ */
 function postAuthorDisplay(post){
   if(post.anon) return {name:'Anonymous', tag:'', branchYear:''};
   const au = DB.users[post.authorEmail];
@@ -1311,9 +1242,6 @@ function renderPostCard(post){
 }
 function escapeHtml(s){ const d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
 
-/* ============================================================
-   LIGHTWEIGHT MARKDOWN (bold, italic, code, links, line breaks)
-   ============================================================ */
 function mdRender(raw){
   let s = escapeHtml(raw||'');
   s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
@@ -1340,7 +1268,6 @@ function mdToolbarHtml(textareaId){
   </div>`;
 }
 
-/* image upload -> compressed base64 data URL (keeps the shared Firestore doc small) */
 function handleImageUpload(inputEl, previewId, onReady){
   const file = inputEl.files && inputEl.files[0];
   if(!file) return;
@@ -1366,9 +1293,6 @@ function handleImageUpload(inputEl, previewId, onReady){
   reader.readAsDataURL(file);
 }
 
-/* ============================================================
-   KARMA / LEADERBOARD
-   ============================================================ */
 function renderLeaderboard(){
   const wrap = document.getElementById('leaderboardWrap');
   const users = Object.values(DB.users).sort((a,b)=>(b.karma||0)-(a.karma||0)).slice(0,50);
@@ -1390,9 +1314,6 @@ function renderLeaderboard(){
   }).join('') + `</div>`;
 }
 
-/* ============================================================
-   CUSTOM COMMUNITIES
-   ============================================================ */
 function allCommunities(){ return COMMUNITIES.concat(DB.communities||[]); }
 function openCreateCommunity(){
   const u = currentUser();
@@ -1424,9 +1345,6 @@ function submitCreateCommunity(){
   go('communities');
 }
 
-/* ============================================================
-   EDIT / DELETE / REPORT
-   ============================================================ */
 function deletePost(postId){
   const u = currentUser();
   const post = DB.posts.find(p=>p.id===postId);
@@ -1501,9 +1419,6 @@ function reportContent(kind, id){
   toast('Thanks — this has been reported for review.');
 }
 
-/* ============================================================
-   DIRECT MESSAGES
-   ============================================================ */
 function dmConvoId(emailA, emailB){ return [emailA, emailB].sort().join('__'); }
 function renderDmConvoList(){
   const u = currentUser(); if(!u) return;
@@ -1612,9 +1527,6 @@ function refreshCurrentView(){
   else if(id==='communities') renderCommunities();
 }
 
-/* ============================================================
-   HOME FEED
-   ============================================================ */
 function renderHomeWelcome(){
   const box = document.getElementById('homeWelcome');
   const u = currentUser();
@@ -1667,9 +1579,6 @@ function renderHomeEventsPreview(){
     </div>`).join('');
 }
 
-/* ============================================================
-   DISCUSSIONS FEED
-   ============================================================ */
 let activeTab = 'trending';
 const TABS = [
   {id:'trending', label:'🔥 Trending'},
@@ -1695,7 +1604,6 @@ function renderDiscussions(){
   else if(activeTab==='answered') list.sort((a,b)=>commentsCountFor(b.id)-commentsCountFor(a.id));
   else list = list.filter(p=>p.category===activeTab);
 
-  /* secondary sort control: New / Top / Hot / Most Commented */
   if(sortMode==='new') list.sort((a,b)=>b.createdAt-a.createdAt);
   else if(sortMode==='top') list.sort((a,b)=>(b.upvotes-b.downvotes)-(a.upvotes-a.downvotes));
   else if(sortMode==='commented') list.sort((a,b)=>commentsCountFor(b.id)-commentsCountFor(a.id));
@@ -1741,9 +1649,6 @@ function renderDiscussions(){
     <div class="stat-box"><b>${Object.values(DB.users).filter(u=>u.role==='senior').length}</b><span>Seniors</span></div>`;
 }
 
-/* ============================================================
-   POST DETAIL
-   ============================================================ */
 let currentPostId = null;
 function renderPostDetail(postId){
   currentPostId = postId;
@@ -1841,9 +1746,6 @@ function markBest(postId, answerId){
   renderPostDetail(postId);
 }
 
-/* ============================================================
-   COMMUNITIES
-   ============================================================ */
 function renderCommunities(){
   document.getElementById('communitiesGrid').innerHTML = allCommunities().map(c=>{
     const postCount = DB.posts.filter(p=>(c.slug && p.category.toLowerCase().includes(c.slug.slice(0,4))) || p.category===c.name).length;
@@ -1857,9 +1759,6 @@ function renderCommunities(){
   }).join('');
 }
 
-/* ============================================================
-   RESOURCES
-   ============================================================ */
 function renderResources(){
   const cats = ["Notes","Previous Year Questions","Syllabus","Academic Calendar","Timetable","Placement Resources"];
   document.getElementById('resourcesGrid').innerHTML = cats.map(c=>`
@@ -1870,9 +1769,6 @@ function renderResources(){
     </div>`).join('');
 }
 
-/* ============================================================
-   EVENTS / ANNOUNCEMENTS
-   ============================================================ */
 function fmtEventDate(dstr){
   if(!dstr) return '';
   const d = new Date(dstr + 'T00:00:00');
@@ -1963,9 +1859,6 @@ function deleteEvent(eventId){
   renderEvents();
 }
 
-/* ============================================================
-   MENTORS / SENIOR DIRECTORY
-   ============================================================ */
 function renderMentors(){
   const branchSel = document.getElementById('mentorBranchFilter');
   if(branchSel.options.length<=1){
@@ -1996,9 +1889,6 @@ function renderMentors(){
     </div>`).join('');
 }
 
-/* ============================================================
-   PROFILE
-   ============================================================ */
 let currentProfileEmail = null;
 let profileTab = 'questions';
 function renderProfile(email){
@@ -2054,9 +1944,6 @@ function renderProfileTabContent(u){
   box.innerHTML = list.length ? list.map(renderPostCard).join('') : `<div class="glass empty-state"><h4>Nothing here yet</h4><p>${profileTab==='saved'?'Bookmark posts to find them here later.':'Ask your first question to get started.'}</p></div>`;
 }
 
-/* ============================================================
-   SEARCH
-   ============================================================ */
 function openSearch(){
   const overlay = document.createElement('div');
   overlay.className='overlay'; overlay.id='genericOverlay';
@@ -2089,9 +1976,6 @@ function doSearch(){
   box.innerHTML = html;
 }
 
-/* ============================================================
-   INIT
-   ============================================================ */
 function init(){
   renderAuthArea();
   seedEventsIfEmpty();
@@ -2106,8 +1990,7 @@ function seedEventsIfEmpty(){
     saveDB(DB, true);
   }
 }
-/* init() is invoked by the Firebase bootstrap script once auth state
-   and the shared Firestore data have both loaded (see maybeStartApp). */
+renderAuthArea();
 </script>
 </body>
 </html>
