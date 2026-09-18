@@ -1,0 +1,2113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> Connect — Ask. Share. Grow.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#020817;
+  --bg-2:#050b1c;
+  --card:rgba(18,28,51,0.55);
+  --card-solid:#0b1428;
+  --border:rgba(90,130,220,0.16);
+  --border-strong:rgba(90,150,255,0.35);
+  --accent:#3b82f6;
+  --accent-2:#22d3ee;
+  --accent-3:#a78bfa;
+  --text:#e7ecf7;
+  --text-dim:#93a1c2;
+  --text-faint:#5c6890;
+  --up:#34d399;
+  --down:#f87171;
+  --radius:16px;
+  --radius-sm:10px;
+  --font-display:'Sora',sans-serif;
+  --font-body:'Inter',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  min-height:100vh;
+  overflow-x:hidden;
+  position:relative;
+}
+::selection{background:var(--accent);color:#fff;}
+::-webkit-scrollbar{width:8px;}
+::-webkit-scrollbar-thumb{background:rgba(90,130,220,0.3);border-radius:8px;}
+
+/* ---------- star field ---------- */
+#stars{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(1px 1px at 20% 30%, #cfe0ff 0%, transparent 60%),
+    radial-gradient(1px 1px at 70% 60%, #cfe0ff 0%, transparent 60%),
+    radial-gradient(1.5px 1.5px at 40% 80%, #9fc0ff 0%, transparent 60%),
+    radial-gradient(1px 1px at 85% 15%, #cfe0ff 0%, transparent 60%),
+    radial-gradient(1px 1px at 10% 65%, #9fc0ff 0%, transparent 60%),
+    radial-gradient(1.5px 1.5px at 60% 10%, #cfe0ff 0%, transparent 60%),
+    radial-gradient(1px 1px at 92% 80%, #cfe0ff 0%, transparent 60%),
+    radial-gradient(1px 1px at 33% 45%, #9fc0ff 0%, transparent 60%),
+    radial-gradient(1px 1px at 50% 92%, #cfe0ff 0%, transparent 60%),
+    radial-gradient(1px 1px at 15% 5%, #9fc0ff 0%, transparent 60%);
+  background-repeat:repeat;background-size:600px 600px;
+  animation:twinkle 6s ease-in-out infinite alternate;
+  opacity:0.5;
+}
+@keyframes twinkle{from{opacity:.35}to{opacity:.65}}
+.glow-orb{position:fixed;border-radius:50%;filter:blur(90px);z-index:0;pointer-events:none;opacity:.35;}
+.glow-1{width:500px;height:500px;background:var(--accent);top:-150px;left:-100px;}
+.glow-2{width:420px;height:420px;background:var(--accent-3);bottom:-120px;right:-80px;opacity:.22;}
+
+/* ---------- layout helpers ---------- */
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px;position:relative;z-index:1;}
+.hidden{display:none !important;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;}
+
+/* ---------- navbar ---------- */
+header.nav{
+  position:sticky;top:0;z-index:50;
+  padding:14px 0;
+  background:linear-gradient(180deg, rgba(2,8,23,0.9), rgba(2,8,23,0.6));
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:nowrap;}
+.brand{display:flex;align-items:center;gap:12px;cursor:pointer;}
+.brand-mark{
+  width:42px;height:42px;border-radius:12px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-weight:800;font-size:15px;color:#031024;
+  box-shadow:0 0 24px rgba(59,130,246,.5);
+}
+.brand-text h1{font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:.2px;}
+.brand-text span{display:block;font-size:11px;color:var(--text-faint);margin-top:1px;}
+nav.links{display:flex;gap:4px;background:rgba(255,255,255,.03);border:1px solid var(--border);padding:5px;border-radius:999px;}
+nav.links a{padding:8px 15px;border-radius:999px;font-size:13.5px;color:var(--text-dim);font-weight:500;transition:.2s;white-space:nowrap;}
+nav.links a:hover{color:var(--text);background:rgba(255,255,255,.05);}
+nav.links a.active{color:#fff;background:rgba(59,130,246,.18);box-shadow:inset 0 0 0 1px var(--border-strong);}
+.nav-right{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;flex-shrink:0;}
+#authArea{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;}
+.icon-btn{
+  width:38px;height:38px;border-radius:10px;border:1px solid var(--border);
+  background:rgba(255,255,255,.02);color:var(--text-dim);display:flex;align-items:center;justify-content:center;
+  transition:.2s;position:relative;
+}
+.icon-btn:hover{border-color:var(--border-strong);color:#fff;}
+.badge-dot{position:absolute;top:-3px;right:-3px;width:9px;height:9px;border-radius:50%;background:var(--accent-2);border:2px solid var(--bg);}
+.btn{
+  border-radius:10px;font-weight:600;font-size:13.5px;padding:9px 18px;border:1px solid transparent;transition:.2s;
+}
+.btn-ghost{border-color:var(--border);color:var(--text);background:rgba(255,255,255,.02);}
+.btn-ghost:hover{border-color:var(--border-strong);}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#031024;box-shadow:0 0 20px rgba(59,130,246,.35);}
+.btn-primary:hover{filter:brightness(1.08);}
+.btn-outline{border-color:var(--border-strong);color:var(--accent-2);background:transparent;}
+.btn-sm{padding:6px 12px;font-size:12.5px;}
+.mobile-toggle{display:none;}
+
+.user-chip{display:flex;align-items:center;gap:8px;padding:5px 12px 5px 5px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.02);flex-shrink:0;white-space:nowrap;}
+.avatar{
+  width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-weight:700;font-size:12px;color:#031024;flex-shrink:0;
+}
+.identity{display:flex;flex-direction:column;line-height:1.2;}
+.identity b{font-size:12.5px;}
+.identity small{font-size:10.5px;color:var(--text-faint);}
+.senior-tag{font-size:9.5px;background:rgba(34,211,238,.15);color:var(--accent-2);border:1px solid rgba(34,211,238,.35);padding:1px 6px;border-radius:6px;margin-left:5px;vertical-align:1px;}
+
+/* dropdown */
+.dropdown{position:relative;}
+.dropdown-menu{
+  position:absolute;top:calc(100% + 10px);right:0;min-width:210px;
+  background:var(--card-solid);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:8px;box-shadow:0 20px 50px rgba(0,0,0,.5);z-index:60;
+}
+.dropdown-menu a,.dropdown-menu button{display:block;width:100%;text-align:left;padding:9px 10px;border-radius:8px;font-size:13px;color:var(--text-dim);background:none;border:none;}
+.dropdown-menu a:hover,.dropdown-menu button:hover{background:rgba(255,255,255,.05);color:#fff;}
+.dropdown-menu hr{border:none;border-top:1px solid var(--border);margin:6px 0;}
+
+/* ---------- generic view/section ---------- */
+.view{display:none;padding:40px 0 80px;}
+.view.active{display:block;}
+.section-head{margin-bottom:28px;}
+.section-head h2{font-family:var(--font-display);font-size:26px;font-weight:700;}
+.section-head p{color:var(--text-dim);font-size:14px;margin-top:6px;}
+
+.glass{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  backdrop-filter:blur(10px);
+}
+
+/* ---------- hero ---------- */
+.hero{padding:70px 0 40px;text-align:center;position:relative;}
+.hero-emblem{
+  width:78px;height:78px;margin:0 auto 22px;border-radius:22px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-3));
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;font-size:26px;
+  box-shadow:0 0 50px rgba(59,130,246,.45);color:#031024;
+}
+.badge-pill{
+  display:inline-flex;align-items:center;gap:8px;padding:7px 16px;border-radius:999px;
+  border:1px solid var(--border-strong);background:rgba(59,130,246,.08);font-size:12.5px;color:var(--accent-2);margin-bottom:26px;
+}
+.badge-pill i{width:6px;height:6px;border-radius:50%;background:var(--accent-2);box-shadow:0 0 8px var(--accent-2);}
+.hero h1{font-family:var(--font-display);font-size:clamp(38px,6vw,68px);font-weight:800;line-height:1.05;letter-spacing:-1px;}
+.hero h1 .grad{background:linear-gradient(120deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero .sub{max-width:600px;margin:22px auto 6px;color:#c3cee6;font-size:18px;font-weight:500;}
+.hero .desc{max-width:560px;margin:0 auto 34px;color:var(--text-dim);font-size:14.5px;line-height:1.6;}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:44px;}
+.hero-actions .btn{padding:13px 26px;font-size:14.5px;}
+.hero-notes{display:flex;justify-content:space-between;max-width:760px;margin:0 auto;color:var(--text-faint);font-size:12.5px;line-height:1.7;font-style:italic;}
+
+/* feature cards */
+.features{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:10px;}
+.feature-card{padding:22px 18px;text-align:left;transition:.25s;cursor:default;}
+.feature-card:hover{transform:translateY(-4px);border-color:var(--border-strong);box-shadow:0 16px 40px rgba(59,130,246,.12);}
+.feature-icon{width:40px;height:40px;border-radius:11px;background:rgba(59,130,246,.12);display:flex;align-items:center;justify-content:center;font-size:19px;margin-bottom:14px;}
+.feature-card h3{font-size:14.5px;font-weight:700;margin-bottom:6px;}
+.feature-card p{font-size:12.5px;color:var(--text-dim);line-height:1.5;}
+
+/* generic post card */
+.post-card{padding:18px 20px;margin-bottom:14px;transition:.2s;cursor:pointer;}
+.post-card:hover{border-color:var(--border-strong);}
+.post-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
+.cat-badge{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:6px;background:rgba(167,139,250,.14);color:var(--accent-3);border:1px solid rgba(167,139,250,.3);}
+.time-txt{font-size:11.5px;color:var(--text-faint);}
+.post-card h4{font-size:15.5px;font-weight:700;margin-bottom:6px;}
+.post-card .desc-txt{font-size:13px;color:var(--text-dim);line-height:1.55;margin-bottom:12px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.post-meta{display:flex;align-items:center;gap:16px;font-size:12.5px;color:var(--text-dim);}
+.post-meta .author{display:flex;align-items:center;gap:6px;font-weight:600;color:var(--text);}
+.vote-group{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:999px;padding:3px;}
+.vote-btn{width:26px;height:26px;border-radius:50%;border:none;background:none;color:var(--text-dim);display:flex;align-items:center;justify-content:center;font-size:13px;transition:.15s;}
+.vote-btn:hover{background:rgba(255,255,255,.06);color:#fff;}
+.vote-btn.active-up{color:var(--up);}
+.vote-btn.active-down{color:var(--down);}
+.vote-count{font-size:12.5px;font-weight:700;min-width:16px;text-align:center;}
+.pill-stat{display:flex;align-items:center;gap:5px;}
+.bookmark-btn{background:none;border:none;color:var(--text-dim);font-size:14px;}
+.bookmark-btn.active{color:var(--accent-2);}
+
+/* empty state */
+.empty-state{padding:48px 24px;text-align:center;}
+.empty-state .icon{font-size:34px;margin-bottom:14px;}
+.empty-state h4{font-size:16px;font-weight:700;margin-bottom:6px;}
+.empty-state p{font-size:13px;color:var(--text-dim);margin-bottom:18px;}
+
+/* discussions layout */
+.disc-layout{display:grid;grid-template-columns:200px 1fr 280px;gap:22px;align-items:start;}
+.tab-list{display:flex;flex-direction:column;gap:4px;position:sticky;top:100px;}
+.tab-item{padding:10px 14px;border-radius:10px;font-size:13px;color:var(--text-dim);font-weight:500;text-align:left;background:none;border:1px solid transparent;}
+.tab-item:hover{background:rgba(255,255,255,.03);color:#fff;}
+.tab-item.active{background:rgba(59,130,246,.14);border-color:var(--border-strong);color:#fff;}
+.side-card{padding:18px;margin-bottom:16px;}
+.side-card h5{font-weight:700;margin-bottom:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.4px;font-size:11px;}
+.tag-chip{display:inline-block;padding:5px 11px;margin:0 6px 6px 0;font-size:12px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text-dim);}
+.mini-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:12.5px;}
+.mini-row:last-child{border:none;}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.stat-box{text-align:center;padding:12px 6px;border-radius:10px;background:rgba(255,255,255,.03);}
+.stat-box b{display:block;font-size:19px;font-family:var(--font-display);color:var(--accent-2);}
+.stat-box span{font-size:10.5px;color:var(--text-faint);}
+
+/* ask button floating */
+.ask-fab{
+  display:flex;align-items:center;gap:8px;padding:11px 20px;border-radius:12px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#031024;font-weight:700;font-size:13.5px;
+  border:none;box-shadow:0 10px 30px rgba(59,130,246,.35);margin-bottom:20px;width:100%;justify-content:center;
+}
+
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(2,8,20,.72);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;}
+.modal{
+  background:var(--card-solid);border:1px solid var(--border);border-radius:18px;
+  width:100%;max-width:520px;max-height:88vh;overflow-y:auto;padding:28px;position:relative;
+  box-shadow:0 30px 80px rgba(0,0,0,.6);
+}
+.modal.wide{max-width:680px;}
+.modal-close{position:absolute;top:18px;right:18px;background:none;border:none;color:var(--text-faint);font-size:18px;}
+.modal h3{font-family:var(--font-display);font-size:20px;font-weight:700;margin-bottom:4px;}
+.modal .sub{font-size:12.5px;color:var(--text-dim);margin-bottom:22px;}
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:12.5px;color:var(--text-dim);margin-bottom:7px;font-weight:500;}
+.field input,.field textarea,.field select{
+  width:100%;padding:11px 13px;border-radius:10px;border:1px solid var(--border);
+  background:rgba(255,255,255,.03);color:var(--text);font-size:13.5px;font-family:inherit;
+}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--accent);}
+.field textarea{min-height:110px;resize:vertical;}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.check-row{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-dim);margin-bottom:16px;}
+.form-error{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.35);color:#fca5a5;font-size:12.5px;padding:9px 12px;border-radius:8px;margin-bottom:14px;}
+.form-note{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.25);color:var(--accent-2);font-size:12px;padding:9px 12px;border-radius:8px;margin-bottom:14px;line-height:1.5;}
+.switch-line{text-align:center;font-size:12.5px;color:var(--text-dim);margin-top:16px;}
+.switch-line a{color:var(--accent-2);font-weight:600;}
+.interest-grid{display:flex;flex-wrap:wrap;gap:8px;}
+.interest-chip{padding:9px 15px;border-radius:999px;border:1px solid var(--border);font-size:12.5px;color:var(--text-dim);cursor:pointer;}
+.interest-chip.sel{border-color:var(--accent-2);background:rgba(34,211,238,.12);color:#fff;}
+
+/* ---------- improved auth UI ---------- */
+.field-wrap{position:relative;}
+.field-wrap input{padding-right:42px !important;}
+.pw-toggle{
+  position:absolute;right:6px;top:50%;transform:translateY(0);margin-top:11px;
+  background:none;border:none;color:var(--text-faint);font-size:15px;padding:6px;
+  display:flex;align-items:center;justify-content:center;line-height:1;
+}
+.pw-toggle:hover{color:var(--text);}
+.field.has-status label{display:flex;align-items:center;justify-content:space-between;}
+.field-status{font-size:11px;font-weight:600;}
+.field-status.ok{color:var(--up);}
+.field-status.bad{color:var(--down);}
+.field-status.pending{color:var(--text-faint);}
+.field-hint{font-size:11px;color:var(--text-faint);margin-top:6px;}
+.field-hint.bad{color:var(--down);}
+.field-hint.ok{color:var(--up);}
+.input-border-ok{border-color:var(--up) !important;}
+.input-border-bad{border-color:var(--down) !important;}
+.pw-strength{margin-top:8px;}
+.pw-strength-bar{height:5px;border-radius:4px;background:rgba(255,255,255,.06);overflow:hidden;display:flex;gap:3px;}
+.pw-strength-bar span{flex:1;height:100%;border-radius:4px;background:rgba(255,255,255,.08);transition:.25s;}
+.pw-strength-bar span.on{background:var(--seg-color,var(--down));}
+.pw-strength-label{font-size:11px;margin-top:5px;color:var(--text-faint);}
+.pw-reqs{list-style:none;margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;}
+.pw-reqs li{font-size:11px;color:var(--text-faint);display:flex;align-items:center;gap:5px;}
+.pw-reqs li:before{content:'○';font-size:9px;color:var(--text-faint);}
+.pw-reqs li.met{color:var(--up);}
+.pw-reqs li.met:before{content:'●';color:var(--up);}
+.check-row-between{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.check-row-between .check-row{margin-bottom:0;}
+.link-btn{background:none;border:none;color:var(--accent-2);font-size:12.5px;font-weight:600;padding:0;cursor:pointer;}
+.link-btn:hover{text-decoration:underline;}
+.btn[disabled]{opacity:.6;cursor:not-allowed;filter:none !important;}
+.btn.loading{position:relative;color:transparent !important;}
+.btn.loading::after{
+  content:'';position:absolute;top:50%;left:50%;width:16px;height:16px;margin:-8px 0 0 -8px;
+  border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;
+  animation:btnspin .7s linear infinite;
+}
+@keyframes btnspin{to{transform:rotate(360deg);}}
+.storage-warn{background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);color:#fbbf24;font-size:12px;padding:9px 12px;border-radius:8px;margin-bottom:14px;line-height:1.5;}
+.avatar-picker{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
+.avatar-opt{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:12px;color:#031024;cursor:pointer;border:2px solid transparent;}
+.avatar-opt.sel{border-color:#fff;box-shadow:0 0 0 2px var(--accent);}
+
+/* ---------- sort tabs / leaderboard / DM / markdown / extras ---------- */
+.sort-tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
+.sort-tabs button{padding:7px 14px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.02);color:var(--text-dim);font-size:12.5px;font-weight:600;}
+.sort-tabs button.active{color:#fff;background:rgba(59,130,246,.18);border-color:var(--border-strong);}
+.lb-row{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:1px solid var(--border);}
+.lb-row:last-child{border-bottom:none;}
+.lb-rank{width:28px;text-align:center;font-family:var(--font-display);font-weight:800;color:var(--text-faint);font-size:14px;}
+.lb-rank.top1{color:#fbbf24;} .lb-rank.top2{color:#cbd5e1;} .lb-rank.top3{color:#d97706;}
+.lb-karma{margin-left:auto;font-family:var(--font-display);font-weight:700;color:var(--accent-2);font-size:14px;}
+.dm-layout{display:grid;grid-template-columns:280px 1fr;gap:16px;min-height:440px;}
+.dm-convo-list{padding:10px;overflow-y:auto;max-height:560px;}
+.dm-convo-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;cursor:pointer;}
+.dm-convo-item:hover,.dm-convo-item.active{background:rgba(255,255,255,.05);}
+.dm-convo-item .last{font-size:11.5px;color:var(--text-faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px;}
+.dm-thread{display:flex;flex-direction:column;padding:0;}
+.dm-thread-head{padding:16px 18px;border-bottom:1px solid var(--border);font-weight:700;}
+.dm-msgs{flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:10px;max-height:440px;}
+.dm-bubble{max-width:70%;padding:9px 13px;border-radius:14px;font-size:13px;line-height:1.4;}
+.dm-bubble.mine{align-self:flex-end;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#031024;}
+.dm-bubble.theirs{align-self:flex-start;background:rgba(255,255,255,.06);}
+.dm-input-row{display:flex;gap:8px;padding:14px 18px;border-top:1px solid var(--border);}
+.dm-input-row input{flex:1;padding:10px 13px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--text);font-family:inherit;}
+.md-content{line-height:1.65;}
+.md-content code{background:rgba(255,255,255,.08);padding:1px 6px;border-radius:5px;font-size:12.5px;}
+.md-content a{color:var(--accent-2);text-decoration:underline;}
+.md-content img{max-width:100%;border-radius:10px;margin-top:8px;display:block;}
+.post-actions-row{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;}
+.post-actions-row button{background:none;border:none;color:var(--text-faint);font-size:12px;font-weight:600;padding:4px 2px;}
+.post-actions-row button:hover{color:var(--text);}
+.img-upload-preview{margin-top:10px;max-width:100%;max-height:180px;border-radius:10px;display:none;}
+.md-toolbar{display:flex;gap:6px;margin-bottom:6px;}
+.md-toolbar button{padding:5px 9px;border-radius:6px;border:1px solid var(--border);background:rgba(255,255,255,.02);color:var(--text-dim);font-size:12px;font-weight:700;}
+@media(max-width:820px){.dm-layout{grid-template-columns:1fr;} .dm-convo-list{max-height:200px;}}
+
+/* post detail */
+.pd-header{padding:24px;margin-bottom:18px;}
+.answer-card{padding:16px 18px;margin-bottom:12px;border-left:2px solid transparent;}
+.answer-card.best{border-left-color:var(--up);background:rgba(52,211,153,.06);}
+.answer-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
+.answer-author{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;}
+.answer-body{font-size:13.5px;color:#d3dbee;line-height:1.6;margin-bottom:10px;}
+.best-tag{font-size:10.5px;background:rgba(52,211,153,.15);color:var(--up);border:1px solid rgba(52,211,153,.35);padding:2px 8px;border-radius:6px;font-weight:700;}
+.mark-best-btn{font-size:11.5px;color:var(--text-dim);border:1px solid var(--border);padding:4px 10px;border-radius:8px;background:none;}
+.mark-best-btn:hover{color:#fff;border-color:var(--border-strong);}
+
+/* profile */
+.profile-head{display:flex;gap:20px;align-items:center;padding:26px;margin-bottom:20px;flex-wrap:wrap;}
+.avatar-lg{width:74px;height:74px;border-radius:50%;font-size:26px;}
+.profile-head h2{font-family:var(--font-display);font-size:22px;}
+.profile-head .meta{color:var(--text-dim);font-size:13px;margin-top:4px;}
+.profile-tabs{display:flex;gap:6px;margin-bottom:18px;border-bottom:1px solid var(--border);}
+.profile-tabs button{padding:10px 4px;margin-right:20px;background:none;border:none;color:var(--text-dim);font-size:13.5px;font-weight:600;border-bottom:2px solid transparent;}
+.profile-tabs button.active{color:#fff;border-color:var(--accent-2);}
+
+/* communities / mentors / resources grids */
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.comm-card{padding:20px;}
+.comm-card h4{font-size:15.5px;margin-bottom:6px;}
+.comm-card p{font-size:12.5px;color:var(--text-dim);margin-bottom:14px;line-height:1.5;}
+.comm-stats{display:flex;gap:14px;font-size:11.5px;color:var(--text-faint);margin-bottom:14px;}
+.mentor-card{padding:20px;text-align:center;}
+.mentor-card .avatar{width:56px;height:56px;font-size:18px;margin:0 auto 12px;}
+.mentor-card h4{font-size:14.5px;}
+.mentor-card .meta{font-size:12px;color:var(--text-dim);margin:4px 0 12px;}
+
+/* toast */
+#toast-wrap{position:fixed;bottom:24px;right:24px;z-index:200;display:flex;flex-direction:column;gap:10px;}
+.toast{padding:13px 18px;border-radius:10px;background:var(--card-solid);border:1px solid var(--border-strong);font-size:13px;box-shadow:0 15px 40px rgba(0,0,0,.5);animation:toastIn .25s ease;}
+@keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+footer{border-top:1px solid var(--border);padding:44px 0 0;color:var(--text-faint);font-size:12px;position:relative;z-index:1;}
+.footer-inner{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:32px;padding-bottom:30px;}
+.footer-brand p{margin-top:12px;font-size:12.5px;line-height:1.6;max-width:280px;}
+.footer-col h5{font-family:var(--font-display);font-weight:700;font-size:12.5px;color:var(--text);margin-bottom:14px;}
+.footer-col a{display:block;font-size:13px;color:var(--text-dim);margin-bottom:10px;cursor:pointer;transition:.2s;}
+.footer-col a:hover{color:var(--accent-2);}
+.footer-bottom{border-top:1px solid var(--border);padding:18px 24px;text-align:center;}
+@media(max-width:820px){.footer-inner{grid-template-columns:1fr 1fr;}.footer-brand{grid-column:1/-1;}}
+@media(max-width:520px){.footer-inner{grid-template-columns:1fr;}}
+
+@media(max-width:980px){
+  .features{grid-template-columns:repeat(2,1fr);}
+  .disc-layout{grid-template-columns:1fr;}
+  .tab-list{position:static;flex-direction:row;flex-wrap:wrap;}
+  .grid-3{grid-template-columns:1fr 1fr;}
+  nav.links{display:none;}
+  .identity small{display:none;}
+  .user-chip{padding:5px 10px 5px 5px;}
+}
+@media(max-width:640px){
+  .features{grid-template-columns:1fr 1fr;}
+  .hero-notes{flex-direction:column;gap:10px;text-align:center;}
+  .grid-3{grid-template-columns:1fr;}
+  .row-2{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div id="stars"></div>
+<div class="glow-orb glow-1"></div>
+<div class="glow-orb glow-2"></div>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <div class="brand" onclick="go('home')">
+      <div class="brand-mark">MC</div>
+      <div class="brand-text">
+        <h1> ConnectApp</h1>
+        <span>Students • Seniors • Together</span>
+      </div>
+    </div>
+    <nav class="links" id="navLinks">
+      <a data-view="home" onclick="go('home')">Home</a>
+      <a data-view="discussions" onclick="go('discussions')">Discussions</a>
+      <a data-view="communities" onclick="go('communities')">Communities</a>
+      <a data-view="events" onclick="go('events')">Events</a>
+      <a data-view="leaderboard" onclick="go('leaderboard')">Leaderboard</a>
+      <a data-view="messages" onclick="go('messages')" id="messagesNavLink">Messages</a>
+    </nav>
+    <div class="nav-right">
+      <div id="authArea"></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HOME -->
+  <section class="view active" id="view-home">
+    <div class="hero">
+      <div id="homeWelcome"></div>
+      <div class="hero-emblem">MC</div>
+      <div class="badge-pill"><i></i> A Student Community by ians, for ians</div>
+      <h1>Ask. Share. <span class="grad">Grow.</span></h1>
+      <p class="sub">Your student community for real  experiences.</p>
+      <p class="desc">Ask doubts, get answers from seniors, share experiences, discover resources, and stay connected with campus life.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="handleJoin()">Join Community →</button>
+        <button class="btn btn-ghost" onclick="go('discussions')">Explore Discussions</button>
+      </div>
+      <div class="hero-notes">
+        <div>Same Campus<br>New Conversations<br>A Better You.</div>
+        <div>Learn · Connect<br>Contribute<br> Forever!</div>
+      </div>
+    </div>
+
+    <div class="features" id="featureCards"></div>
+
+    <div class="section-head" style="margin-top:60px;">
+      <h2>What's happening at ?</h2>
+      <p>Real questions. Real experiences. Real answers.</p>
+    </div>
+    <div id="homeFeed"></div>
+
+    <div class="section-head" style="margin-top:60px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+      <div>
+        <h2>Upcoming Events</h2>
+        <p>Hackathons, workshops and everything happening on campus soon.</p>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="go('events')">View All →</button>
+    </div>
+    <div class="grid-3" id="homeEventsPreview" style="margin-bottom:20px;"></div>
+  </section>
+
+  <!-- DISCUSSIONS -->
+  <section class="view" id="view-discussions">
+    <div class="section-head">
+      <h2>Discussions</h2>
+      <p>Browse what ians are asking right now.</p>
+    </div>
+    <div class="disc-layout">
+      <div class="tab-list" id="discTabs"></div>
+      <div id="discFeed"></div>
+      <div>
+        <button class="ask-fab" onclick="openAsk()">✍️ Ask a Question</button>
+        <div class="glass side-card">
+          <h5>Trending at </h5>
+          <div id="trendingTags"></div>
+        </div>
+        <div class="glass side-card">
+          <h5>Top Contributors</h5>
+          <div id="topContributors"></div>
+        </div>
+        <div class="glass side-card">
+          <h5>Campus Stats</h5>
+          <div class="stat-grid" id="campusStats"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POST DETAIL -->
+  <section class="view" id="view-post">
+    <button class="btn btn-ghost btn-sm" onclick="go('discussions')" style="margin-bottom:18px;">← Back to Discussions</button>
+    <div id="postDetailWrap"></div>
+  </section>
+
+  <!-- COMMUNITIES -->
+  <section class="view" id="view-communities">
+    <div class="section-head" style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+      <div>
+        <h2>Communities</h2>
+        <p>Find your corner of  Connect — or start your own.</p>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="openCreateCommunity()">+ Create Community</button>
+    </div>
+    <div class="grid-3" id="communitiesGrid"></div>
+  </section>
+
+  <!-- LEADERBOARD -->
+  <section class="view" id="view-leaderboard">
+    <div class="section-head">
+      <h2>Leaderboard</h2>
+      <p>Top contributors ranked by karma — earned from upvotes and best answers.</p>
+    </div>
+    <div id="leaderboardWrap"></div>
+  </section>
+
+  <!-- MESSAGES -->
+  <section class="view" id="view-messages">
+    <div class="section-head">
+      <h2>Messages</h2>
+      <p>Direct conversations with other ians.</p>
+    </div>
+    <div class="dm-layout" id="dmLayout">
+      <div class="glass dm-convo-list" id="dmConvoList"></div>
+      <div class="glass dm-thread" id="dmThread"></div>
+    </div>
+  </section>
+
+  <!-- RESOURCES -->
+  <section class="view" id="view-resources">
+    <div class="section-head">
+      <h2>Campus Resources</h2>
+      <p>Notes, PYQs and everything else ians share.</p>
+    </div>
+    <div class="grid-3" id="resourcesGrid"></div>
+  </section>
+
+  <!-- EVENTS -->
+  <section class="view" id="view-events">
+    <div class="section-head" style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+      <div>
+        <h2>Events</h2>
+        <p>Hackathons, workshops and everything happening on campus.</p>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="openCreateEvent()">+ Add Event</button>
+    </div>
+    <div class="grid-3" id="eventsGrid"></div>
+  </section>
+
+  <!-- MENTORS -->
+  <section class="view" id="view-mentors">
+    <div class="section-head">
+      <h2>Find a Senior</h2>
+      <p>Connect with seniors who've been through it already.</p>
+    </div>
+    <div class="row-2" style="margin-bottom:22px;max-width:480px;">
+      <select class="field" id="mentorBranchFilter" onchange="renderMentors()" style="padding:11px 13px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--text);">
+        <option value="">All Branches</option>
+      </select>
+      <select class="field" id="mentorYearFilter" onchange="renderMentors()" style="padding:11px 13px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--text);">
+        <option value="">All Years</option>
+        <option>1st Year</option><option>2nd Year</option><option>3rd Year</option><option>4th Year</option>
+      </select>
+    </div>
+    <div class="grid-3" id="mentorsGrid"></div>
+  </section>
+
+  <!-- PROFILE -->
+  <section class="view" id="view-profile">
+    <div id="profileWrap"></div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-col footer-brand">
+      <div class="brand" style="cursor:pointer;" onclick="go('home')">
+        <div class="brand-mark" style="width:34px;height:34px;font-size:12px;">MC</div>
+        <div class="brand-text"><h1 style="font-size:15px;"> ConnectApp</h1></div>
+      </div>
+      <p>A student community by ians, for ians. Not an official university platform.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Explore</h5>
+      <a onclick="go('discussions')">Discussions</a>
+      <a onclick="go('communities')">Communities</a>
+      <a onclick="go('events')">Events</a>
+      <a onclick="go('mentors')">Find a Senior</a>
+    </div>
+    <div class="footer-col">
+      <h5>Resources</h5>
+      <a onclick="go('resources')">Campus Resources</a>
+      <a onclick="go('leaderboard')">Leaderboard</a>
+      <a onclick="openAsk()">Ask a Question</a>
+      <a onclick="openCreateEvent()">Add an Event</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© <span id="footerYear"></span>  Connect. Built by ians, for ians.</div>
+</footer>
+<div id="toast-wrap"></div>
+
+<!-- ============================================================
+     FIREBASE BOOTSTRAP (ES module — exposes helpers on window
+     so the classic script below can call them)
+     ============================================================ -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+  import {
+    getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+    signOut, onAuthStateChanged, sendPasswordResetEmail,
+    setPersistence, browserLocalPersistence, browserSessionPersistence
+  } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+  import {
+    initializeFirestore, doc, getDoc, setDoc, onSnapshot
+  } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC8A2zO0R7jBRFMYBTUIjBkbnbEYaMHdGo",
+    authDomain: "campus-connect-c870f.firebaseapp.com",
+    projectId: "campus-connect-c870f",
+    storageBucket: "campus-connect-c870f.firebasestorage.app",
+    messagingSenderId: "824842356603",
+    appId: "1:824842356603:web:063fb370c2394537fbdfde",
+    measurementId: "G-Z21HY7QTSE"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = initializeFirestore(app, {
+    /* many networks/antivirus/proxies block Firestore's default streaming
+       (WebChannel) connection — long polling falls back to plain HTTPS
+       requests, which is far more compatible. */
+    experimentalAutoDetectLongPolling: true,
+    useFetchStreams: false
+  });
+  const APP_DOC = doc(db, 'connect', 'shared');
+
+  window.fb = {
+    auth,
+    async signUp(email, pw){ return (await createUserWithEmailAndPassword(auth, email, pw)).user; },
+    async signIn(email, pw, remember){
+      await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence);
+      return (await signInWithEmailAndPassword(auth, email, pw)).user;
+    },
+    async signOutUser(){ return signOut(auth); },
+    async sendReset(email){ return sendPasswordResetEmail(auth, email); },
+    onAuthChange(cb){ return onAuthStateChanged(auth, cb); },
+    async loadSharedDoc(){
+      const snap = await getDoc(APP_DOC);
+      return snap.exists() ? snap.data() : null;
+    },
+    async saveSharedDoc(data){ return setDoc(APP_DOC, data, { merge:false }); },
+    watchSharedDoc(cb){ return onSnapshot(APP_DOC, snap=>{ if(snap.exists()) cb(snap.data()); }); },
+    errMsg(e){
+      const code = (e && e.code) || '';
+      const map = {
+        'auth/email-already-in-use':'An account with this email already exists.',
+        'auth/invalid-email':'Enter a valid email address.',
+        'auth/weak-password':'Password is too weak — use at least 8 characters.',
+        'auth/user-not-found':'No account found with this email.',
+        'auth/wrong-password':'Incorrect password.',
+        'auth/invalid-credential':'Incorrect email or password.',
+        'auth/too-many-requests':'Too many attempts. Please wait a moment and try again.',
+        'auth/network-request-failed':'Network error — check your internet connection.'
+      };
+      return map[code] || (e && e.message) || 'Something went wrong. Please try again.';
+    }
+  };
+  window.dispatchEvent(new Event('fb-ready'));
+</script>
+
+<script>
+/* ============================================================
+   DATA LAYER — synced with Firebase Firestore in real time.
+   All signed-in users share one Firestore document; Firebase
+   Authentication (not locally-hashed passwords) handles login.
+   ============================================================ */
+let DB = { version:1, users:{}, posts:[], comments:[], notifications:[], bookmarks:{}, events:[] };
+let dbReady = false;
+let firebaseUser = null; /* the Firebase Auth user object, once signed in */
+
+function emptyDB(){ return { version:1, users:{}, posts:[], comments:[], notifications:[], bookmarks:{}, communities:[], messages:[], reports:[], events:[] }; }
+
+let saveDebounceTimer = null;
+function saveDB(db, immediate){
+  const write = async () => {
+    try{ await window.fb.saveSharedDoc(db); }
+    catch(e){ toast('⚠️ Could not sync to the cloud: ' + window.fb.errMsg(e)); }
+  };
+  if(immediate){ write(); return; }
+  clearTimeout(saveDebounceTimer);
+  saveDebounceTimer = setTimeout(write, 250);
+}
+
+function currentUser(){
+  if(!firebaseUser) return null;
+  return DB.users[firebaseUser.email] || null;
+}
+
+/* Firebase readiness + live sync wiring. init() (bottom of file) is
+   only called once both auth state and the shared DB have loaded. */
+let authKnown = false, dbLoaded = false, appStarted = false;
+function maybeStartApp(){
+  if(appStarted && dbLoaded){ /* re-render on later DB updates */ afterDbUpdate(); return; }
+  if(authKnown && dbLoaded && !appStarted){ appStarted = true; init(); }
+}
+function afterDbUpdate(){
+  renderAuthArea();
+  refreshCurrentView();
+}
+
+window.addEventListener('fb-ready', ()=>{
+  window.fb.onAuthChange(u=>{ firebaseUser = u; authKnown = true; maybeStartApp(); });
+  window.fb.watchSharedDoc(data=>{
+    DB = Object.assign(emptyDB(), data);
+    dbLoaded = true;
+    maybeStartApp();
+  });
+  /* if the shared doc doesn't exist yet, create it once so onSnapshot has something to watch */
+  window.fb.loadSharedDoc().then(data=>{
+    if(!data) window.fb.saveSharedDoc(emptyDB());
+  }).catch(()=>{});
+});
+</script>
+
+<script>
+const ADJ = ["Swift","Clever","Bright","Bold","Calm","Sharp","Witty","Brave","Quiet","Rapid","Cosmic","Stellar","Lunar","Solar","Crimson","Azure","Golden","Silver","Mystic","Silent","Electric","Velvet"];
+const NOUN = ["Falcon","Tiger","Eagle","Wolf","Phoenix","Panther","Hawk","Lion","Dragon","Otter","Raven","Fox","Bear","Cobra","Comet","Nova","Orbit","Pulsar","Nebula","Quartz","Voyager","Cipher"];
+function generateUsername(){
+  let uname;
+  do{
+    const a = ADJ[Math.floor(Math.random()*ADJ.length)];
+    const n = NOUN[Math.floor(Math.random()*NOUN.length)];
+    const num = Math.floor(100 + Math.random()*899);
+    uname = a + n + num;
+  } while(Object.values(DB.users).some(u=>u.username===uname));
+  return uname;
+}
+
+const BRANCHES = ["CSE","IT","ECE","EE","ME","Civil","Chemical","Production","Biotechnology","MCA","MBA"];
+const YEARS = ["1st Year","2nd Year","3rd Year","4th Year"];
+/* batch options like 2026-2030 */
+const BATCHES = (function(){
+  const out = [];
+  const nowY = new Date().getFullYear();
+  for(let start = nowY - 4; start <= nowY + 1; start++){
+    out.push(start + '-' + (start + 4));
+  }
+  return out.reverse();
+})();
+const CATEGORIES = ["Academics","Placements","Hostel","Admissions","Coding","Campus Life","Clubs","Internships","General"];
+const COMMUNITIES = [
+  {slug:"academics",name:"Academics",desc:"Midsems, subjects, professors and study strategy."},
+  {slug:"placements",name:"Placements",desc:"Placement prep, interview experiences, offers."},
+  {slug:"coding",name:"Coding",desc:"DSA, projects, hackathons and competitive programming."},
+  {slug:"hostel",name:"Hostel Life",desc:"Mess, rooms, roommates and hostel survival tips."},
+  {slug:"campus",name:"Campus Life",desc:"Everything about day-to-day life at ."},
+  {slug:"admissions",name:"Admissions",desc:"Counselling, branch change and new-admit questions."},
+  {slug:"internships",name:"Internships",desc:"Finding, applying and surviving internships."},
+  {slug:"clubs",name:"Clubs",desc:"Technical, cultural and departmental clubs on campus."}
+];
+
+function avatarColor(seed){
+  const colors = ['#3b82f6','#22d3ee','#a78bfa','#f472b6','#34d399','#fbbf24','#f87171'];
+  let h=0; for(const c of (seed||'x')) h = (h + c.charCodeAt(0))%colors.length;
+  return colors[h];
+}
+function initials(name){ return (name||'?').slice(0,2).toUpperCase(); }
+function timeAgo(ts){
+  const s = Math.floor((Date.now()-ts)/1000);
+  if(s<60) return 'just now';
+  if(s<3600) return Math.floor(s/60)+'m ago';
+  if(s<86400) return Math.floor(s/3600)+'h ago';
+  return Math.floor(s/86400)+'d ago';
+}
+function toast(msg){
+  const el = document.createElement('div');
+  el.className='toast'; el.textContent=msg;
+  document.getElementById('toast-wrap').appendChild(el);
+  setTimeout(()=>el.remove(),3200);
+}
+function notify(email, text, link){
+  DB.notifications.unshift({id:crypto.randomUUID(), email, text, link, ts:Date.now(), read:false});
+  saveDB(DB);
+}
+/* seniors are derived from year now, not picked at signup */
+function roleForYear(year){
+  return (year==='3rd Year' || year==='4th Year') ? 'senior' : 'student';
+}
+
+const SEED_EVENTS = [
+  { id:'seed-1', title:'Annual Tech Fest', date:'2026-10-18', time:'10:00 AM', location:'Main Auditorium', desc:'A two-day celebration of tech, coding contests, robotics demos and guest talks from the industry.', creatorEmail:null, creatorName:'Tech Club', createdAt:Date.now() },
+  { id:'seed-2', title:'Resume & LinkedIn Workshop', date:'2026-09-28', time:'4:00 PM', location:'Seminar Hall 2', desc:'Placement cell session on building a strong resume and LinkedIn profile before the season starts.', creatorEmail:null, creatorName:'Placement Cell', createdAt:Date.now() },
+  { id:'seed-3', title:'Hostel Cultural Night', date:'2026-10-05', time:'7:00 PM', location:'Hostel Ground', desc:'Music, dance and food stalls hosted by the hostel committee — open to all years.', creatorEmail:null, creatorName:'Hostel Committee', createdAt:Date.now() }
+];
+
+/* ============================================================
+   NAV / VIEW ROUTING
+   ============================================================ */
+function go(view, param){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+view).classList.add('active');
+  document.querySelectorAll('nav.links a').forEach(a=>a.classList.toggle('active', a.dataset.view===view));
+  window.scrollTo({top:0,behavior:'smooth'});
+  closeAllDropdowns();
+  if(view==='post') renderPostDetail(param);
+  if(view==='discussions') renderDiscussions();
+  if(view==='communities') renderCommunities();
+  if(view==='resources') renderResources();
+  if(view==='events') renderEvents();
+  if(view==='mentors') renderMentors();
+  if(view==='profile') renderProfile(param || (currentUser() && currentUser().email));
+  if(view==='home') renderHome();
+  if(view==='leaderboard') renderLeaderboard();
+  if(view==='messages'){
+    if(!currentUser()){ toast('Sign in to view messages.'); openAuth('signin'); go('home'); return; }
+    renderDmConvoList();
+    if(param) openDmThread(param); else renderDmThreadEmpty();
+  }
+}
+
+/* ============================================================
+   AUTH AREA / NAV RENDER
+   ============================================================ */
+function renderAuthArea(){
+  const u = currentUser();
+  const area = document.getElementById('authArea');
+  if(!u){
+    area.innerHTML = `
+      <button class="btn btn-ghost" onclick="openAuth('signin')">Sign In</button>
+      <button class="btn btn-primary" onclick="openAuth('signup')">Sign Up</button>`;
+    return;
+  }
+  const unread = DB.notifications.filter(n=>n.email===u.email && !n.read).length;
+  area.innerHTML = `
+    <div class="dropdown">
+      <button class="icon-btn" onclick="toggleDropdown('notifDrop')" title="Notifications">🔔${unread?'<span class="badge-dot"></span>':''}</button>
+      <div class="dropdown-menu hidden" id="notifDrop" style="width:290px;max-height:340px;overflow-y:auto;"></div>
+    </div>
+    <div class="dropdown">
+      <div class="user-chip" onclick="toggleDropdown('userDrop')" style="cursor:pointer;">
+        <div class="avatar" style="background:${avatarColor(u.username)}">${initials(u.username)}</div>
+        <div class="identity">
+          <b>${u.username}${u.role==='senior'?'<span class="senior-tag">SENIOR</span>':''}</b>
+          <small>${u.branch} • ${u.year}</small>
+        </div>
+      </div>
+      <div class="dropdown-menu hidden" id="userDrop">
+        <a onclick="go('profile', currentUser().email)">👤 My Profile</a>
+        <a onclick="go('discussions')">💬 My Discussions</a>
+        <hr>
+        <button onclick="logout()">🚪 Log Out</button>
+      </div>
+    </div>`;
+  renderNotifDropdown();
+}
+function toggleDropdown(id){
+  const el = document.getElementById(id);
+  const isHidden = el.classList.contains('hidden');
+  closeAllDropdowns();
+  if(isHidden) el.classList.remove('hidden');
+}
+function closeAllDropdowns(){
+  document.querySelectorAll('.dropdown-menu').forEach(d=>d.classList.add('hidden'));
+}
+document.addEventListener('click', e=>{
+  if(!e.target.closest('.dropdown')) closeAllDropdowns();
+});
+function renderNotifDropdown(){
+  const u = currentUser(); if(!u) return;
+  const box = document.getElementById('notifDrop'); if(!box) return;
+  const mine = DB.notifications.filter(n=>n.email===u.email).slice(0,12);
+  if(!mine.length){
+    box.innerHTML = `<div style="padding:16px;text-align:center;color:var(--text-faint);font-size:12.5px;">No notifications yet.</div>`;
+    return;
+  }
+  box.innerHTML = mine.map(n=>`<a onclick="markNotifRead('${n.id}')" style="cursor:pointer;${n.read?'opacity:.55':''}">${n.text}<br><small style="color:var(--text-faint)">${timeAgo(n.ts)}</small></a>`).join('');
+}
+function markNotifRead(id){
+  const n = DB.notifications.find(x=>x.id===id);
+  if(n){ n.read=true; saveDB(DB); }
+  renderAuthArea();
+}
+async function logout(){ try{ await window.fb.signOutUser(); }catch(e){} toast('Logged out.'); renderAuthArea(); go('home'); }
+function handleJoin(){
+  if(currentUser()) go('discussions'); else openAuth('signup');
+}
+
+/* ============================================================
+   AUTH MODAL — Sign Up / Sign In
+   ============================================================ */
+function openAuth(mode){
+  closeModal();
+  const overlay = document.createElement('div');
+  overlay.className='overlay'; overlay.id='authOverlay';
+  overlay.innerHTML = mode==='signup' ? signupTemplate() : signinTemplate();
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e=>{ if(e.target===overlay) closeModal(); });
+}
+function closeModal(){
+  const o = document.getElementById('authOverlay'); if(o) o.remove();
+  const o2 = document.getElementById('genericOverlay'); if(o2) o2.remove();
+}
+function pwToggleBtn(inputId){
+  return `<button type="button" class="pw-toggle" tabindex="-1" onclick="togglePwVisibility('${inputId}', this)" aria-label="Show password">👁️</button>`;
+}
+function togglePwVisibility(id, btn){
+  const el = document.getElementById(id);
+  const show = el.type === 'password';
+  el.type = show ? 'text' : 'password';
+  btn.textContent = show ? '🙈' : '👁️';
+  el.focus();
+}
+function signinTemplate(){
+  return `<div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>Welcome back</h3>
+    <p class="sub">Sign in to continue to  Connect.</p>
+    <div id="authErrBox"></div>
+    <div class="field"><label>Email</label><input type="email" id="si_email" placeholder="you@.ac.in" onkeydown="if(event.key==='Enter')doSignIn()"></div>
+    <div class="field field-wrap"><label>Password</label><input type="password" id="si_pw" placeholder="••••••••" onkeydown="if(event.key==='Enter')doSignIn()">${pwToggleBtn('si_pw')}</div>
+    <div class="check-row-between">
+      <label class="check-row"><input type="checkbox" id="si_remember" checked style="width:14px;height:14px;"> Remember me</label>
+      <button type="button" class="link-btn" onclick="openForgotPassword()">Forgot password?</button>
+    </div>
+    <button class="btn btn-primary" id="si_submit" style="width:100%" onclick="doSignIn()">Sign In</button>
+    <div class="switch-line">New here? <a onclick="openAuth('signup')">Create an account</a></div>
+  </div>`;
+}
+function signupTemplate(){
+  return `<div class="modal wide">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>Join  Connect</h3>
+    <p class="sub">You'll get a private, anonymous username — your real name is never shown publicly.</p>
+    <div id="authErrBox"></div>
+    <div class="field"><label>Full Name (private, for account recovery only)</label><input id="su_name" placeholder="Your real name"></div>
+    <div class="field has-status">
+      <label>Choose a Username (this is what others will see) <span id="su_username_status" class="field-status"></span></label>
+      <div style="display:flex;gap:8px;">
+        <input id="su_username" placeholder="e.g. SwiftFalcon23" maxlength="20" style="flex:1;" oninput="checkUsernameLive()">
+        <button type="button" class="btn btn-ghost btn-sm" style="white-space:nowrap;" onclick="document.getElementById('su_username').value=generateUsername();checkUsernameLive()">🎲 Suggest</button>
+      </div>
+    </div>
+    <div class="field has-status">
+      <label>Email <span id="su_email_status" class="field-status"></span></label>
+      <input type="email" id="su_email" placeholder="you@.ac.in" oninput="checkEmailLive()">
+    </div>
+    <div class="row-2">
+      <div class="field field-wrap"><label>Password</label><input type="password" id="su_pw" placeholder="••••••••" oninput="checkPwStrengthLive()">${pwToggleBtn('su_pw')}</div>
+      <div class="field field-wrap has-status"><label>Confirm Password <span id="su_pw2_status" class="field-status"></span></label><input type="password" id="su_pw2" placeholder="••••••••" oninput="checkPwMatchLive()">${pwToggleBtn('su_pw2')}</div>
+    </div>
+    <div id="pwStrengthBox" class="pw-strength" style="display:none;">
+      <div class="pw-strength-bar" id="pwStrengthBar">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <div class="pw-strength-label" id="pwStrengthLabel"></div>
+      <ul class="pw-reqs" id="pwReqs">
+        <li data-req="len">8+ characters</li>
+        <li data-req="upper">Uppercase letter</li>
+        <li data-req="num">A number</li>
+        <li data-req="special">Symbol (!@#$…)</li>
+      </ul>
+    </div>
+    <div class="row-2">
+      <div class="field"><label>Batch</label><select id="su_batch">${BATCHES.map(b=>`<option>${b}</option>`).join('')}</select></div>
+      <div class="field"><label>Year</label><select id="su_year">${YEARS.map(y=>`<option>${y}</option>`).join('')}</select></div>
+    </div>
+    <div class="field"><label>Branch</label><select id="su_branch">${BRANCHES.map(b=>`<option>${b}</option>`).join('')}</select></div>
+    <button class="btn btn-primary" id="su_submit" style="width:100%" onclick="doSignUp()">Create Account</button>
+    <div class="switch-line">Already have an account? <a onclick="openAuth('signin')">Sign in</a></div>
+  </div>`;
+}
+function showAuthErr(msg){
+  const box = document.getElementById('authErrBox');
+  if(box) box.innerHTML = `<div class="form-error">${msg}</div>`;
+}
+function clearAuthErr(){
+  const box = document.getElementById('authErrBox');
+  if(box) box.innerHTML = '';
+}
+function setBtnLoading(id, loading){
+  const btn = document.getElementById(id);
+  if(!btn) return;
+  btn.disabled = loading;
+  btn.classList.toggle('loading', loading);
+}
+
+/* ---- live validation helpers (signup) ---- */
+let usernameCheckTimer = null;
+function checkUsernameLive(){
+  clearTimeout(usernameCheckTimer);
+  const el = document.getElementById('su_username');
+  const status = document.getElementById('su_username_status');
+  const v = el.value.trim();
+  if(!v){ status.textContent=''; status.className='field-status'; el.classList.remove('input-border-ok','input-border-bad'); return; }
+  status.textContent = 'checking…'; status.className = 'field-status pending';
+  usernameCheckTimer = setTimeout(()=>{
+    if(!/^[A-Za-z0-9_]{3,20}$/.test(v)){
+      status.textContent = 'invalid format'; status.className = 'field-status bad';
+      el.classList.add('input-border-bad'); el.classList.remove('input-border-ok');
+      return;
+    }
+    const taken = Object.values(DB.users).some(u=>u.username.toLowerCase()===v.toLowerCase());
+    if(taken){
+      status.textContent = 'taken'; status.className = 'field-status bad';
+      el.classList.add('input-border-bad'); el.classList.remove('input-border-ok');
+    }else{
+      status.textContent = 'available'; status.className = 'field-status ok';
+      el.classList.add('input-border-ok'); el.classList.remove('input-border-bad');
+    }
+  }, 300);
+}
+function checkEmailLive(){
+  const el = document.getElementById('su_email');
+  const status = document.getElementById('su_email_status');
+  const v = el.value.trim().toLowerCase();
+  if(!v){ status.textContent=''; status.className='field-status'; el.classList.remove('input-border-ok','input-border-bad'); return; }
+  if(!/^\S+@\S+\.\S+$/.test(v)){
+    status.textContent = 'invalid'; status.className = 'field-status bad';
+    el.classList.add('input-border-bad'); el.classList.remove('input-border-ok');
+  }else if(DB.users[v]){
+    status.textContent = 'already registered'; status.className = 'field-status bad';
+    el.classList.add('input-border-bad'); el.classList.remove('input-border-ok');
+  }else{
+    status.textContent = 'looks good'; status.className = 'field-status ok';
+    el.classList.add('input-border-ok'); el.classList.remove('input-border-bad');
+  }
+}
+function pwScore(pw){
+  let score = 0;
+  const reqs = { len: pw.length>=8, upper: /[A-Z]/.test(pw), num: /[0-9]/.test(pw), special: /[^A-Za-z0-9]/.test(pw) };
+  Object.values(reqs).forEach(ok=>{ if(ok) score++; });
+  return { score, reqs };
+}
+function checkPwStrengthLive(){
+  const pw = document.getElementById('su_pw').value;
+  const box = document.getElementById('pwStrengthBox');
+  if(!pw){ box.style.display='none'; checkPwMatchLive(); return; }
+  box.style.display='block';
+  const { score, reqs } = pwScore(pw);
+  const bars = document.querySelectorAll('#pwStrengthBar span');
+  const colors = ['#f87171','#f87171','#fbbf24','#34d399'];
+  const labels = ['Weak','Weak','Okay','Strong'];
+  bars.forEach((b,i)=>{
+    b.classList.toggle('on', i < score);
+    b.style.setProperty('--seg-color', colors[Math.max(score-1,0)]);
+  });
+  document.getElementById('pwStrengthLabel').textContent = pw.length ? `Password strength: ${labels[Math.max(score-1,0)]}` : '';
+  Object.entries(reqs).forEach(([k,ok])=>{
+    const li = document.querySelector(`#pwReqs li[data-req="${k}"]`);
+    if(li) li.classList.toggle('met', ok);
+  });
+  checkPwMatchLive();
+}
+function checkPwMatchLive(){
+  const pw = document.getElementById('su_pw').value;
+  const pw2El = document.getElementById('su_pw2');
+  const pw2 = pw2El.value;
+  const status = document.getElementById('su_pw2_status');
+  if(!pw2){ status.textContent=''; status.className='field-status'; pw2El.classList.remove('input-border-ok','input-border-bad'); return; }
+  if(pw === pw2){
+    status.textContent = 'match'; status.className = 'field-status ok';
+    pw2El.classList.add('input-border-ok'); pw2El.classList.remove('input-border-bad');
+  }else{
+    status.textContent = "doesn't match"; status.className = 'field-status bad';
+    pw2El.classList.add('input-border-bad'); pw2El.classList.remove('input-border-ok');
+  }
+}
+
+async function doSignUp(){
+  clearAuthErr();
+  const name = document.getElementById('su_name').value.trim();
+  const usernameRaw = document.getElementById('su_username').value.trim();
+  const email = document.getElementById('su_email').value.trim().toLowerCase();
+  const pw = document.getElementById('su_pw').value;
+  const pw2 = document.getElementById('su_pw2').value;
+  const branch = document.getElementById('su_branch').value;
+  const year = document.getElementById('su_year').value;
+  const batch = document.getElementById('su_batch').value;
+  if(!name||!usernameRaw||!email||!pw){ showAuthErr('Please fill in all fields.'); return; }
+  if(!/^\S+@\S+\.\S+$/.test(email)){ showAuthErr('Enter a valid email address.'); return; }
+  if(!/^[A-Za-z0-9_]{3,20}$/.test(usernameRaw)){ showAuthErr('Username must be 3-20 characters: letters, numbers, underscore only.'); return; }
+  if(Object.values(DB.users).some(u=>u.username.toLowerCase()===usernameRaw.toLowerCase())){ showAuthErr('This username is already taken. Try another.'); return; }
+  if(pw.length<8){ showAuthErr('Password must be at least 8 characters.'); return; }
+  const { reqs } = pwScore(pw);
+  if(!reqs.upper || !reqs.num){ showAuthErr('Password should include at least one uppercase letter and one number.'); return; }
+  if(pw!==pw2){ showAuthErr('Passwords do not match.'); return; }
+  if(DB.users[email]){ showAuthErr('An account with this email already exists.'); return; }
+  setBtnLoading('su_submit', true);
+  try{
+    firebaseUser = await window.fb.signUp(email, pw); /* Firebase Auth creates + signs in the account */
+    const username = usernameRaw;
+    DB.users[email] = {
+      email, fullName:name, username, branch, year, batch,
+      role: roleForYear(year), bio:'', interests:[], karma:0,
+      stats:{questions:0, answers:0, helpfulVotes:0, bestAnswers:0},
+      createdAt: Date.now()
+    };
+    saveDB(DB, true);
+    closeModal();
+    toast(`Welcome! Your anonymous username is ${username}.`);
+    renderAuthArea();
+    openOnboarding();
+  }catch(e){
+    showAuthErr(window.fb.errMsg(e));
+  }finally{
+    setBtnLoading('su_submit', false);
+  }
+}
+async function doSignIn(){
+  clearAuthErr();
+  const email = document.getElementById('si_email').value.trim().toLowerCase();
+  const pw = document.getElementById('si_pw').value;
+  const remember = document.getElementById('si_remember').checked;
+  if(!email || !pw){ showAuthErr('Enter your email and password.'); return; }
+  setBtnLoading('si_submit', true);
+  try{
+    firebaseUser = await window.fb.signIn(email, pw, remember);
+    closeModal();
+    const u = DB.users[email];
+    toast(`Welcome back${u?', '+u.username:''}!`);
+    renderAuthArea();
+    go('discussions');
+  }catch(e){
+    showAuthErr(window.fb.errMsg(e));
+  }finally{
+    setBtnLoading('si_submit', false);
+  }
+}
+
+/* ============================================================
+   FORGOT PASSWORD — sends a real reset link via Firebase Auth
+   ============================================================ */
+function openForgotPassword(){
+  closeModal();
+  const overlay = document.createElement('div');
+  overlay.className='overlay'; overlay.id='authOverlay';
+  overlay.innerHTML = `<div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>Reset your password</h3>
+    <p class="sub">Enter your email — we'll send a password reset link to it.</p>
+    <div id="authErrBox"></div>
+    <div class="field"><label>Email</label><input type="email" id="fp_email" placeholder="you@.ac.in" onkeydown="if(event.key==='Enter')doResetPassword()"></div>
+    <button class="btn btn-primary" id="fp_submit" style="width:100%" onclick="doResetPassword()">Send Reset Link</button>
+    <div class="switch-line">Remembered it? <a onclick="openAuth('signin')">Back to Sign In</a></div>
+  </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e=>{ if(e.target===overlay) closeModal(); });
+}
+async function doResetPassword(){
+  clearAuthErr();
+  const email = document.getElementById('fp_email').value.trim().toLowerCase();
+  if(!email){ showAuthErr('Enter your email address.'); return; }
+  setBtnLoading('fp_submit', true);
+  try{
+    await window.fb.sendReset(email);
+    closeModal();
+    toast('Reset link sent — check your inbox (and spam folder).');
+    openAuth('signin');
+  }catch(e){
+    showAuthErr(window.fb.errMsg(e));
+  }finally{
+    setBtnLoading('fp_submit', false);
+  }
+}
+
+function openOnboarding(){
+  const overlay = document.createElement('div');
+  overlay.className='overlay'; overlay.id='genericOverlay';
+  const interests = ["Academics","Coding","Placements","Hostel","Clubs","Internships","Campus Life","Competitive Exams"];
+  overlay.innerHTML = `<div class="modal wide">
+    <h3>Welcome to  Connect 👋</h3>
+    <p class="sub">Pick a few interests to personalize your feed.</p>
+    <div class="interest-grid" id="interestGrid">
+      ${interests.map(i=>`<div class="interest-chip" onclick="this.classList.toggle('sel')">${i}</div>`).join('')}
+    </div>
+    <button class="btn btn-primary" style="width:100%;margin-top:22px;" onclick="finishOnboarding()">Continue to my feed</button>
+  </div>`;
+  document.body.appendChild(overlay);
+}
+function finishOnboarding(){
+  const sel = Array.from(document.querySelectorAll('#interestGrid .sel')).map(e=>e.textContent);
+  const u = currentUser();
+  if(u){ u.interests = sel; saveDB(DB); }
+  closeModal();
+  go('discussions');
+}
+
+/* ============================================================
+   ASK QUESTION MODAL
+   ============================================================ */
+function openAsk(){
+  const u = currentUser();
+  if(!u){ toast('Please sign in to ask a question.'); openAuth('signin'); return; }
+  const overlay = document.createElement('div');
+  overlay.className='overlay'; overlay.id='genericOverlay';
+  overlay.innerHTML = `<div class="modal wide">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>Ask a Question</h3>
+    <p class="sub">Be specific — better questions get better answers from seniors.</p>
+    <div class="field"><label>Question Title</label><input id="ask_title" placeholder="e.g. Which laptop should I buy for Chemical Engineering?"></div>
+    <div class="field">
+      <label>Description (markdown supported: **bold**, *italic*, \`code\`, [link](url))</label>
+      ${mdToolbarHtml('ask_desc')}
+      <textarea id="ask_desc" placeholder="Add more context so seniors can help you better..."></textarea>
+    </div>
+    <div class="field">
+      <label>Add an image (optional)</label>
+      <input type="file" accept="image/*" id="ask_img_input" onchange="handleImageUpload(this,'ask_img_preview', url=>askImageData=url)">
+      <img id="ask_img_preview" class="img-upload-preview">
+    </div>
+    <div class="row-2">
+      <div class="field"><label>Community</label><select id="ask_cat">${allCommunities().map(c=>`<option value="${c.name}">${c.name}</option>`).join('')}${CATEGORIES.filter(c=>!allCommunities().some(ac=>ac.name===c)).map(c=>`<option>${c}</option>`).join('')}</select></div>
+      <div class="field"><label>Year</label><select id="ask_year">${YEARS.map(y=>`<option>${y}</option>`).join('')}</select></div>
+    </div>
+    <div class="check-row"><input type="checkbox" id="ask_anon"> Post as "Anonymous" (hide even your username)</div>
+    <button class="btn btn-primary" style="width:100%" onclick="submitQuestion()">Post Question</button>
+  </div>`;
+  document.body.appendChild(overlay);
+  askImageData = null;
+}
+let askImageData = null;
+function submitQuestion(){
+  const title = document.getElementById('ask_title').value.trim();
+  const desc = document.getElementById('ask_desc').value.trim();
+  const cat = document.getElementById('ask_cat').value;
+  const year = document.getElementById('ask_year').value;
+  const anon = document.getElementById('ask_anon').checked;
+  if(!title){ toast('Please add a question title.'); return; }
+  const u = currentUser();
+  const post = {
+    id: crypto.randomUUID(), title, desc, category:cat, year, anon,
+    image: askImageData || null,
+    authorEmail:u.email, createdAt:Date.now(),
+    upvotes:0, downvotes:0, voters:{}, bookmarks:{}, bestAnswerId:null
+  };
+  DB.posts.unshift(post);
+  u.stats.questions++;
+  saveDB(DB, true);
+  closeModal();
+  askImageData = null;
+  toast('Question posted!');
+  go('post', post.id);
+}
+
+/* ============================================================
+   RENDER: FEATURE CARDS
+   ============================================================ */
+function renderFeatureCards(){
+  const feats = [
+    {icon:'💬',title:'Ask Questions',text:'Get genuine answers from seniors'},
+    {icon:'👥',title:'Real Discussions',text:'Academics, placements & more'},
+    {icon:'📚',title:'Study Resources',text:'Notes, PYQs, roadmaps'},
+    {icon:'📅',title:'Campus Updates',text:'Events, notices, internships'},
+    {icon:'🤝',title:'Build Connections',text:'Connect with the  community'}
+  ];
+  document.getElementById('featureCards').innerHTML = feats.map(f=>`
+    <div class="glass feature-card">
+      <div class="feature-icon">${f.icon}</div>
+      <h3>${f.title}</h3><p>${f.text}</p>
+    </div>`).join('');
+}
+
+/* ============================================================
+   POST CARD RENDER
+   ============================================================ */
+function postAuthorDisplay(post){
+  if(post.anon) return {name:'Anonymous', tag:'', branchYear:''};
+  const au = DB.users[post.authorEmail];
+  if(!au) return {name:'Deleted User', tag:'', branchYear:''};
+  return {
+    name: au.username,
+    tag: au.role==='senior' ? '<span class="senior-tag">SENIOR</span>' : '',
+    branchYear: `${au.branch} • ${au.year}`
+  };
+}
+function commentsCountFor(postId){ return DB.comments.filter(c=>c.postId===postId).length; }
+function renderPostCard(post){
+  const au = postAuthorDisplay(post);
+  const u = currentUser();
+  const myVote = u && post.voters[u.email];
+  const bookmarked = u && post.bookmarks[u.email];
+  const score = post.upvotes - post.downvotes;
+  return `<div class="glass post-card" onclick="go('post','${post.id}')">
+    <div class="post-top">
+      <span class="cat-badge">${post.category}</span>
+      <span class="time-txt">${timeAgo(post.createdAt)} • ${post.year}</span>
+    </div>
+    <h4>${escapeHtml(post.title)}</h4>
+    <div class="desc-txt">${escapeHtml(post.desc||'')}</div>
+    <div class="post-meta">
+      <div class="author">${au.name}${au.tag} <span style="color:var(--text-faint);font-weight:400;">${au.branchYear}</span></div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:14px;" onclick="event.stopPropagation()">
+        <div class="vote-group">
+          <button class="vote-btn ${myVote==='up'?'active-up':''}" onclick="vote('${post.id}','up')">▲</button>
+          <span class="vote-count">${score}</span>
+          <button class="vote-btn ${myVote==='down'?'active-down':''}" onclick="vote('${post.id}','down')">▼</button>
+        </div>
+        <div class="pill-stat">💬 ${commentsCountFor(post.id)}</div>
+        <button class="bookmark-btn ${bookmarked?'active':''}" onclick="toggleBookmark('${post.id}')">🔖</button>
+      </div>
+    </div>
+  </div>`;
+}
+function escapeHtml(s){ const d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
+
+/* ============================================================
+   LIGHTWEIGHT MARKDOWN (bold, italic, code, links, line breaks)
+   ============================================================ */
+function mdRender(raw){
+  let s = escapeHtml(raw||'');
+  s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+  s = s.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+  s = s.replace(/\*([^*]+)\*/g, '<i>$1</i>');
+  s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  s = s.replace(/\n/g, '<br>');
+  return s;
+}
+function insertMdSyntax(textareaId, before, after){
+  const el = document.getElementById(textareaId);
+  if(!el) return;
+  const start = el.selectionStart, end = el.selectionEnd;
+  const sel = el.value.slice(start, end) || 'text';
+  el.value = el.value.slice(0,start) + before + sel + after + el.value.slice(end);
+  el.focus();
+}
+function mdToolbarHtml(textareaId){
+  return `<div class="md-toolbar">
+    <button type="button" onclick="insertMdSyntax('${textareaId}','**','**')" title="Bold">B</button>
+    <button type="button" onclick="insertMdSyntax('${textareaId}','*','*')" title="Italic"><i>I</i></button>
+    <button type="button" onclick="insertMdSyntax('${textareaId}','\`','\`')" title="Code">&lt;/&gt;</button>
+    <button type="button" onclick="insertMdSyntax('${textareaId}','[','](https://)')" title="Link">🔗</button>
+  </div>`;
+}
+
+/* image upload -> compressed base64 data URL (keeps the shared Firestore doc small) */
+function handleImageUpload(inputEl, previewId, onReady){
+  const file = inputEl.files && inputEl.files[0];
+  if(!file) return;
+  if(!file.type.startsWith('image/')){ toast('Please choose an image file.'); inputEl.value=''; return; }
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const img = new Image();
+    img.onload = () => {
+      const MAXW = 900;
+      const scale = Math.min(1, MAXW / img.width);
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width * scale; canvas.height = img.height * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.72);
+      if(dataUrl.length > 700000){ toast('Image is too large even after compression — try a smaller one.'); return; }
+      const prev = document.getElementById(previewId);
+      if(prev){ prev.src = dataUrl; prev.style.display='block'; }
+      onReady(dataUrl);
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ============================================================
+   KARMA / LEADERBOARD
+   ============================================================ */
+function renderLeaderboard(){
+  const wrap = document.getElementById('leaderboardWrap');
+  const users = Object.values(DB.users).sort((a,b)=>(b.karma||0)-(a.karma||0)).slice(0,50);
+  if(!users.length){
+    wrap.innerHTML = `<div class="glass empty-state"><h4>No contributors yet</h4><p>Karma is earned from upvotes and best answers — be the first!</p></div>`;
+    return;
+  }
+  wrap.innerHTML = `<div class="glass">` + users.map((u,i)=>{
+    const rankClass = i===0?'top1':i===1?'top2':i===2?'top3':'';
+    return `<div class="lb-row">
+      <div class="lb-rank ${rankClass}">${i+1}</div>
+      <div class="avatar" style="background:${avatarColor(u.username)}">${initials(u.username)}</div>
+      <div>
+        <b style="cursor:pointer;" onclick="go('profile','${u.email}')">${u.username}</b>${u.role==='senior'?' <span class="senior-tag">SENIOR</span>':''}
+        <div style="font-size:11.5px;color:var(--text-faint);">${u.branch} • ${u.year}</div>
+      </div>
+      <div class="lb-karma">${u.karma||0} karma</div>
+    </div>`;
+  }).join('') + `</div>`;
+}
+
+/* ============================================================
+   CUSTOM COMMUNITIES
+   ============================================================ */
+function allCommunities(){ return COMMUNITIES.concat(DB.communities||[]); }
+function openCreateCommunity(){
+  const u = currentUser();
+  if(!u){ toast('Sign in to create a community.'); openAuth('signin'); return; }
+  const overlay = document.createElement('div');
+  overlay.className='overlay'; overlay.id='genericOverlay';
+  overlay.innerHTML = `<div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>Create a Community</h3>
+    <p class="sub">Start a new space for a topic that doesn't exist yet.</p>
+    <div class="field"><label>Name</label><input id="cc_name" placeholder="e.g. Web Development" maxlength="30"></div>
+    <div class="field"><label>Description</label><textarea id="cc_desc" placeholder="What is this community about?" maxlength="140"></textarea></div>
+    <button class="btn btn-primary" style="width:100%" onclick="submitCreateCommunity()">Create Community</button>
+  </div>`;
+  document.body.appendChild(overlay);
+}
+function submitCreateCommunity(){
+  const u = currentUser();
+  const name = document.getElementById('cc_name').value.trim();
+  const desc = document.getElementById('cc_desc').value.trim();
+  if(!name){ toast('Give your community a name.'); return; }
+  const slug = name.toLowerCase().replace(/[^a-z0-9]+/g,'');
+  if(allCommunities().some(c=>c.slug===slug)){ toast('A community with a similar name already exists.'); return; }
+  DB.communities = DB.communities || [];
+  DB.communities.push({ slug, name, desc: desc||'A community on  Connect.', creatorEmail:u.email, createdAt:Date.now() });
+  saveDB(DB, true);
+  closeModal();
+  toast(`r/${slug} created!`);
+  go('communities');
+}
+
+/* ============================================================
+   EDIT / DELETE / REPORT
+   ============================================================ */
+function deletePost(postId){
+  const u = currentUser();
+  const post = DB.posts.find(p=>p.id===postId);
+  if(!post || !u || post.authorEmail!==u.email){ toast('You can only delete your own posts.'); return; }
+  if(!confirm('Delete this question and all its answers? This cannot be undone.')) return;
+  DB.posts = DB.posts.filter(p=>p.id!==postId);
+  DB.comments = DB.comments.filter(c=>c.postId!==postId);
+  saveDB(DB, true);
+  toast('Post deleted.');
+  go('discussions');
+}
+function openEditPost(postId){
+  const u = currentUser();
+  const post = DB.posts.find(p=>p.id===postId);
+  if(!post || !u || post.authorEmail!==u.email){ toast('You can only edit your own posts.'); return; }
+  const overlay = document.createElement('div');
+  overlay.className='overlay'; overlay.id='genericOverlay';
+  overlay.innerHTML = `<div class="modal wide">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>Edit Question</h3>
+    <div class="field"><label>Question Title</label><input id="edit_title" value="${escapeHtml(post.title)}"></div>
+    <div class="field">
+      <label>Description (markdown supported)</label>
+      ${mdToolbarHtml('edit_desc')}
+      <textarea id="edit_desc">${escapeHtml(post.desc||'')}</textarea>
+    </div>
+    <button class="btn btn-primary" style="width:100%" onclick="submitEditPost('${postId}')">Save Changes</button>
+  </div>`;
+  document.body.appendChild(overlay);
+}
+function submitEditPost(postId){
+  const post = DB.posts.find(p=>p.id===postId);
+  const title = document.getElementById('edit_title').value.trim();
+  const desc = document.getElementById('edit_desc').value.trim();
+  if(!title){ toast('Title cannot be empty.'); return; }
+  post.title = title; post.desc = desc; post.editedAt = Date.now();
+  saveDB(DB, true);
+  closeModal();
+  toast('Post updated.');
+  go('post', postId);
+}
+function deleteComment(commentId){
+  const u = currentUser();
+  const c = DB.comments.find(x=>x.id===commentId);
+  if(!c || !u || c.authorEmail!==u.email){ toast('You can only delete your own answers.'); return; }
+  if(!confirm('Delete this answer?')) return;
+  const postId = c.postId;
+  DB.comments = DB.comments.filter(x=>x.id!==commentId);
+  saveDB(DB, true);
+  toast('Answer deleted.');
+  go('post', postId);
+}
+function editComment(commentId){
+  const u = currentUser();
+  const c = DB.comments.find(x=>x.id===commentId);
+  if(!c || !u || c.authorEmail!==u.email){ toast('You can only edit your own answers.'); return; }
+  const newText = prompt('Edit your answer:', c.text);
+  if(newText===null) return;
+  if(!newText.trim()){ toast('Answer cannot be empty.'); return; }
+  c.text = newText.trim(); c.editedAt = Date.now();
+  saveDB(DB, true);
+  go('post', c.postId);
+}
+function reportContent(kind, id){
+  const u = currentUser();
+  if(!u){ toast('Sign in to report content.'); openAuth('signin'); return; }
+  const reason = prompt('Why are you reporting this? (spam, harassment, misinformation, etc.)');
+  if(reason===null) return;
+  DB.reports = DB.reports || [];
+  DB.reports.push({ id:crypto.randomUUID(), kind, targetId:id, reason:(reason||'No reason given').trim(), reporterEmail:u.email, ts:Date.now() });
+  saveDB(DB, true);
+  toast('Thanks — this has been reported for review.');
+}
+
+/* ============================================================
+   DIRECT MESSAGES
+   ============================================================ */
+function dmConvoId(emailA, emailB){ return [emailA, emailB].sort().join('__'); }
+function renderDmConvoList(){
+  const u = currentUser(); if(!u) return;
+  const box = document.getElementById('dmConvoList');
+  const msgs = DB.messages || [];
+  const partners = new Map();
+  msgs.forEach(m=>{
+    if(m.from!==u.email && m.to!==u.email) return;
+    const other = m.from===u.email ? m.to : m.from;
+    const prev = partners.get(other);
+    if(!prev || m.ts > prev.ts) partners.set(other, m);
+  });
+  const list = Array.from(partners.entries()).sort((a,b)=>b[1].ts - a[1].ts);
+  if(!list.length){
+    box.innerHTML = `<div style="padding:16px;text-align:center;color:var(--text-faint);font-size:12.5px;">No conversations yet.<br>Message someone from their profile.</div>`;
+    return;
+  }
+  box.innerHTML = list.map(([email, m])=>{
+    const ou = DB.users[email];
+    const name = ou ? ou.username : 'Deleted User';
+    return `<div class="dm-convo-item" onclick="go('messages','${email}')">
+      <div class="avatar" style="background:${avatarColor(name)}">${initials(name)}</div>
+      <div><b style="font-size:13px;">${name}</b><div class="last">${escapeHtml(m.text)}</div></div>
+    </div>`;
+  }).join('');
+}
+function renderDmThreadEmpty(){
+  document.getElementById('dmThread').innerHTML = `<div class="glass empty-state" style="height:100%;display:flex;flex-direction:column;justify-content:center;"><div class="icon">✉️</div><h4>Select a conversation</h4><p>Or visit someone's profile to start a new one.</p></div>`;
+}
+let activeDmPartner = null;
+function openDmThread(email){
+  const u = currentUser(); if(!u) return;
+  activeDmPartner = email;
+  const ou = DB.users[email];
+  const thread = document.getElementById('dmThread');
+  const msgs = (DB.messages||[]).filter(m=> (m.from===u.email&&m.to===email) || (m.from===email&&m.to===u.email) ).sort((a,b)=>a.ts-b.ts);
+  thread.innerHTML = `
+    <div class="dm-thread-head">${ou ? ou.username : 'Deleted User'}</div>
+    <div class="dm-msgs" id="dmMsgs">${msgs.map(m=>`<div class="dm-bubble ${m.from===u.email?'mine':'theirs'}">${escapeHtml(m.text)}</div>`).join('') || '<div style="color:var(--text-faint);font-size:12.5px;text-align:center;margin-top:20px;">Say hi 👋</div>'}</div>
+    <div class="dm-input-row">
+      <input id="dmInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendDm()">
+      <button class="btn btn-primary btn-sm" onclick="sendDm()">Send</button>
+    </div>`;
+  const box = document.getElementById('dmMsgs');
+  if(box) box.scrollTop = box.scrollHeight;
+  document.querySelectorAll('.dm-convo-item').forEach(el=>el.classList.remove('active'));
+}
+function sendDm(){
+  const u = currentUser(); if(!u || !activeDmPartner) return;
+  const input = document.getElementById('dmInput');
+  const text = input.value.trim();
+  if(!text) return;
+  DB.messages = DB.messages || [];
+  DB.messages.push({ id:crypto.randomUUID(), from:u.email, to:activeDmPartner, text, ts:Date.now() });
+  saveDB(DB, true);
+  notify(activeDmPartner, `New message from ${u.username}.`, null);
+  input.value = '';
+  renderDmConvoList();
+  openDmThread(activeDmPartner);
+}
+function messageUser(email){
+  const u = currentUser();
+  if(!u){ toast('Sign in to send messages.'); openAuth('signin'); return; }
+  if(email===u.email){ toast("That's you!"); return; }
+  go('messages', email);
+}
+
+
+function vote(postId, dir){
+  const u = currentUser();
+  if(!u){ toast('Sign in to vote.'); openAuth('signin'); return; }
+  const post = DB.posts.find(p=>p.id===postId);
+  const prev = post.voters[u.email];
+  if(prev==='up') post.upvotes--;
+  if(prev==='down') post.downvotes--;
+  if(prev===dir){ delete post.voters[u.email]; }
+  else{
+    post.voters[u.email]=dir;
+    if(dir==='up') post.upvotes++; else post.downvotes++;
+    if(dir==='up' && post.authorEmail!==u.email){
+      const author = DB.users[post.authorEmail];
+      if(author){ author.stats.helpfulVotes++; author.karma++; }
+      notify(post.authorEmail, `Your post "${post.title}" received an upvote.`, post.id);
+    }
+  }
+  saveDB(DB);
+  refreshCurrentView();
+}
+function toggleBookmark(postId){
+  const u = currentUser();
+  if(!u){ toast('Sign in to bookmark.'); openAuth('signin'); return; }
+  const post = DB.posts.find(p=>p.id===postId);
+  if(post.bookmarks[u.email]) delete post.bookmarks[u.email]; else post.bookmarks[u.email]=true;
+  saveDB(DB);
+  refreshCurrentView();
+}
+function refreshCurrentView(){
+  const active = document.querySelector('.view.active');
+  if(!active) return;
+  const id = active.id.replace('view-','');
+  if(id==='home') renderHome();
+  else if(id==='discussions') renderDiscussions();
+  else if(id==='post') renderPostDetail(currentPostId);
+  else if(id==='profile') renderProfile(currentProfileEmail);
+  else if(id==='events') renderEvents();
+  else if(id==='communities') renderCommunities();
+}
+
+/* ============================================================
+   HOME FEED
+   ============================================================ */
+function renderHomeWelcome(){
+  const box = document.getElementById('homeWelcome');
+  const u = currentUser();
+  if(!u){ box.innerHTML = ''; return; }
+  const hour = new Date().getHours();
+  const greeting = hour<12 ? 'Good morning' : hour<17 ? 'Good afternoon' : 'Good evening';
+  box.innerHTML = `<div class="badge-pill" style="background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.3);">
+    <div class="avatar" style="width:22px;height:22px;font-size:9.5px;background:${avatarColor(u.username)}">${initials(u.username)}</div>
+    ${greeting}, ${u.username}${u.role==='senior'?' <span class="senior-tag" style="margin-left:2px;">SENIOR</span>':''}
+  </div>`;
+}
+function renderHome(){
+  renderFeatureCards();
+  renderHomeWelcome();
+  renderHomeEventsPreview();
+  const feed = document.getElementById('homeFeed');
+  const recent = DB.posts.slice(0,4);
+  if(!recent.length){
+    feed.innerHTML = `<div class="glass empty-state">
+      <div class="icon">💬</div>
+      <h4>No discussions yet</h4>
+      <p>Be the first ian to ask a question and get the conversation started.</p>
+      <button class="btn btn-primary" onclick="openAsk()">Ask a Question</button>
+    </div>`;
+    return;
+  }
+  feed.innerHTML = recent.map(renderPostCard).join('');
+}
+function renderHomeEventsPreview(){
+  const box = document.getElementById('homeEventsPreview');
+  const section = box.previousElementSibling;
+  const today = new Date().toISOString().slice(0,10);
+  const upcoming = (DB.events||[]).filter(e=>!e.date || e.date>=today).sort((a,b)=>(a.date||'').localeCompare(b.date||'')).slice(0,3);
+  if(!upcoming.length){
+    box.innerHTML = '';
+    box.style.display = 'none';
+    if(section) section.style.display = 'none';
+    return;
+  }
+  box.style.display = '';
+  if(section) section.style.display = '';
+  box.innerHTML = upcoming.map(e=>`
+    <div class="glass comm-card" style="cursor:pointer;" onclick="go('events')">
+      <div class="comm-stats" style="margin-bottom:8px;">
+        <span>📅 ${fmtEventDate(e.date) || 'Date TBA'}</span>${e.time?`<span>🕒 ${escapeHtml(e.time)}</span>`:''}
+      </div>
+      <h4>${escapeHtml(e.title)}</h4>
+      <p>${escapeHtml(e.desc||'')}</p>
+      <div class="comm-stats">${e.location?`<span>📍 ${escapeHtml(e.location)}</span>`:''}</div>
+    </div>`).join('');
+}
+
+/* ============================================================
+   DISCUSSIONS FEED
+   ============================================================ */
+let activeTab = 'trending';
+const TABS = [
+  {id:'trending', label:'🔥 Trending'},
+  {id:'latest', label:'🆕 Latest'},
+  {id:'answered', label:'⭐ Most Answered'},
+  {id:'Academics', label:'📚 Academics'},
+  {id:'Placements', label:'💼 Placements'},
+  {id:'Hostel', label:'🏠 Hostel'},
+  {id:'Admissions', label:'🎓 Admissions'},
+  {id:'Coding', label:'💻 Coding'},
+  {id:'Campus Life', label:'🏫 Campus Life'}
+];
+function setTab(id){ activeTab = id; renderDiscussions(); }
+let sortMode = 'new';
+function setSort(mode){ sortMode = mode; renderDiscussions(); }
+function renderDiscussions(){
+  document.getElementById('discTabs').innerHTML = TABS.map(t=>
+    `<button class="tab-item ${activeTab===t.id?'active':''}" onclick="setTab('${t.id}')">${t.label}</button>`).join('');
+
+  let list = [...DB.posts];
+  if(activeTab==='trending') list.sort((a,b)=>(b.upvotes-b.downvotes)-(a.upvotes-a.downvotes));
+  else if(activeTab==='latest') list.sort((a,b)=>b.createdAt-a.createdAt);
+  else if(activeTab==='answered') list.sort((a,b)=>commentsCountFor(b.id)-commentsCountFor(a.id));
+  else list = list.filter(p=>p.category===activeTab);
+
+  /* secondary sort control: New / Top / Hot / Most Commented */
+  if(sortMode==='new') list.sort((a,b)=>b.createdAt-a.createdAt);
+  else if(sortMode==='top') list.sort((a,b)=>(b.upvotes-b.downvotes)-(a.upvotes-a.downvotes));
+  else if(sortMode==='commented') list.sort((a,b)=>commentsCountFor(b.id)-commentsCountFor(a.id));
+  else if(sortMode==='hot') list.sort((a,b)=>{
+    const hotScore = p => (p.upvotes-p.downvotes)*2 + commentsCountFor(p.id) - (Date.now()-p.createdAt)/3600000/24;
+    return hotScore(b)-hotScore(a);
+  });
+
+  const feed = document.getElementById('discFeed');
+  const sortBar = `<div class="sort-tabs">
+    <button class="${sortMode==='new'?'active':''}" onclick="setSort('new')">🆕 New</button>
+    <button class="${sortMode==='top'?'active':''}" onclick="setSort('top')">⬆️ Top</button>
+    <button class="${sortMode==='hot'?'active':''}" onclick="setSort('hot')">🔥 Hot</button>
+    <button class="${sortMode==='commented'?'active':''}" onclick="setSort('commented')">💬 Most Commented</button>
+  </div>`;
+  if(!list.length){
+    feed.innerHTML = sortBar + `<div class="glass empty-state">
+      <div class="icon">🗂️</div>
+      <h4>Nothing here yet</h4>
+      <p>No discussions in this tab yet. Start one!</p>
+      <button class="btn btn-primary" onclick="openAsk()">Ask a Question</button>
+    </div>`;
+  } else {
+    feed.innerHTML = sortBar + list.map(renderPostCard).join('');
+  }
+
+  const counts = {};
+  DB.posts.forEach(p=>counts[p.category]=(counts[p.category]||0)+1);
+  const tags = Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  document.getElementById('trendingTags').innerHTML = tags.length
+    ? tags.map(([c])=>`<span class="tag-chip">#${c.replace(/\s/g,'')}</span>`).join('')
+    : `<p style="font-size:12.5px;color:var(--text-faint);">No trends yet — start posting!</p>`;
+
+  const users = Object.values(DB.users).sort((a,b)=>b.karma-a.karma).filter(u=>u.karma>0).slice(0,5);
+  document.getElementById('topContributors').innerHTML = users.length
+    ? users.map(u=>`<div class="mini-row"><div class="avatar" style="width:24px;height:24px;font-size:10px;background:${avatarColor(u.username)}">${initials(u.username)}</div> ${u.username} <span style="margin-left:auto;color:var(--text-faint)">${u.karma} pts</span></div>`).join('')
+    : `<p style="font-size:12.5px;color:var(--text-faint);">No contributors yet.</p>`;
+
+  document.getElementById('campusStats').innerHTML = `
+    <div class="stat-box"><b>${Object.keys(DB.users).length}</b><span>Members</span></div>
+    <div class="stat-box"><b>${DB.posts.length}</b><span>Questions</span></div>
+    <div class="stat-box"><b>${DB.comments.length}</b><span>Answers</span></div>
+    <div class="stat-box"><b>${Object.values(DB.users).filter(u=>u.role==='senior').length}</b><span>Seniors</span></div>`;
+}
+
+/* ============================================================
+   POST DETAIL
+   ============================================================ */
+let currentPostId = null;
+function renderPostDetail(postId){
+  currentPostId = postId;
+  const post = DB.posts.find(p=>p.id===postId);
+  const wrap = document.getElementById('postDetailWrap');
+  if(!post){ wrap.innerHTML = `<div class="glass empty-state"><h4>Question not found</h4></div>`; return; }
+  const au = postAuthorDisplay(post);
+  const u = currentUser();
+  const myVote = u && post.voters[u.email];
+  const score = post.upvotes-post.downvotes;
+  const isOwner = u && u.email===post.authorEmail;
+  const answers = DB.comments.filter(c=>c.postId===postId).sort((a,b)=>{
+    if(post.bestAnswerId===a.id) return -1;
+    if(post.bestAnswerId===b.id) return 1;
+    return b.upvotes-a.upvotes;
+  });
+  wrap.innerHTML = `
+    <div class="glass pd-header">
+      <div class="post-top"><span class="cat-badge">${post.category}</span><span class="time-txt">${timeAgo(post.createdAt)}${post.editedAt?' • edited':''} • ${post.year}</span></div>
+      <h2 style="font-family:var(--font-display);font-size:23px;margin-bottom:10px;">${escapeHtml(post.title)}</h2>
+      <div class="md-content" style="color:var(--text-dim);font-size:14px;margin-bottom:16px;">${mdRender(post.desc||'')}</div>
+      ${post.image?`<img src="${post.image}" class="md-content" style="max-width:100%;border-radius:12px;margin-bottom:16px;display:block;">`:''}
+      <div class="post-meta">
+        <div class="author">${au.name}${au.tag} <span style="color:var(--text-faint);font-weight:400;">${au.branchYear}</span></div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:14px;">
+          <div class="vote-group">
+            <button class="vote-btn ${myVote==='up'?'active-up':''}" onclick="vote('${post.id}','up');renderPostDetail('${post.id}')">▲</button>
+            <span class="vote-count">${score}</span>
+            <button class="vote-btn ${myVote==='down'?'active-down':''}" onclick="vote('${post.id}','down');renderPostDetail('${post.id}')">▼</button>
+          </div>
+          <button class="bookmark-btn ${(u && post.bookmarks[u.email])?'active':''}" onclick="toggleBookmark('${post.id}');renderPostDetail('${post.id}')">🔖</button>
+        </div>
+      </div>
+      <div class="post-actions-row">
+        ${isOwner?`<button onclick="openEditPost('${post.id}')">✏️ Edit</button><button onclick="deletePost('${post.id}')">🗑️ Delete</button>`:`<button onclick="reportContent('post','${post.id}')">🚩 Report</button>`}
+        ${(!post.anon && !isOwner && u)?`<button onclick="messageUser('${post.authorEmail}')">✉️ Message ${au.name}</button>`:''}
+      </div>
+    </div>
+    <h3 style="font-size:16px;margin-bottom:14px;">${answers.length} Answer${answers.length!==1?'s':''}</h3>
+    <div id="answersWrap">${answers.length ? answers.map(a=>renderAnswer(a,post)).join('') : `<div class="glass empty-state"><div class="icon">🤷</div><h4>No answers yet</h4><p>Be the first senior or student to help out.</p></div>`}</div>
+    <div class="glass" style="padding:18px;margin-top:16px;">
+      <label style="font-size:12.5px;color:var(--text-dim);display:block;margin-bottom:8px;">Your Answer (markdown supported)</label>
+      ${mdToolbarHtml('answerBox')}
+      <textarea id="answerBox" placeholder="Share what you know..." style="width:100%;min-height:90px;padding:11px 13px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--text);font-family:inherit;font-size:13.5px;"></textarea>
+      <button class="btn btn-primary" style="margin-top:12px;" onclick="submitAnswer('${post.id}')">Post Answer</button>
+    </div>`;
+}
+function renderAnswer(a, post){
+  const author = DB.users[a.authorEmail];
+  const isBest = post.bestAnswerId===a.id;
+  const u = currentUser();
+  const canMark = u && u.email===post.authorEmail && !post.bestAnswerId;
+  const isOwner = u && u.email===a.authorEmail;
+  return `<div class="glass answer-card ${isBest?'best':''}">
+    <div class="answer-top">
+      <div class="answer-author">
+        <div class="avatar" style="width:26px;height:26px;font-size:10.5px;background:${avatarColor(author?author.username:'x')}">${initials(author?author.username:'?')}</div>
+        ${author?author.username:'Deleted User'} ${author&&author.role==='senior'?'<span class="senior-tag">SENIOR</span>':''}
+        <span style="color:var(--text-faint);font-weight:400;font-size:11.5px;margin-left:6px;">${author?author.branch+' • '+author.year:''}</span>
+        ${isBest?'<span class="best-tag" style="margin-left:8px;">✓ BEST ANSWER</span>':''}
+      </div>
+      ${canMark?`<button class="mark-best-btn" onclick="markBest('${post.id}','${a.id}')">Mark as Best</button>`:''}
+    </div>
+    <div class="answer-body md-content">${mdRender(a.text)}</div>
+    <div style="font-size:11.5px;color:var(--text-faint);">${timeAgo(a.createdAt)}${a.editedAt?' • edited':''}</div>
+    <div class="post-actions-row">
+      ${isOwner?`<button onclick="editComment('${a.id}')">✏️ Edit</button><button onclick="deleteComment('${a.id}')">🗑️ Delete</button>`:`<button onclick="reportContent('comment','${a.id}')">🚩 Report</button>`}
+    </div>
+  </div>`;
+}
+function submitAnswer(postId){
+  const u = currentUser();
+  if(!u){ toast('Sign in to answer.'); openAuth('signin'); return; }
+  const box = document.getElementById('answerBox');
+  const text = box.value.trim();
+  if(!text){ toast('Write something before posting.'); return; }
+  const comment = {id:crypto.randomUUID(), postId, authorEmail:u.email, text, createdAt:Date.now(), upvotes:0};
+  DB.comments.push(comment);
+  u.stats.answers++;
+  const post = DB.posts.find(p=>p.id===postId);
+  if(post.authorEmail!==u.email) notify(post.authorEmail, `${u.username} answered your question "${post.title}".`, postId);
+  saveDB(DB, true);
+  toast('Answer posted!');
+  renderPostDetail(postId);
+}
+function markBest(postId, answerId){
+  const post = DB.posts.find(p=>p.id===postId);
+  post.bestAnswerId = answerId;
+  const ans = DB.comments.find(c=>c.id===answerId);
+  const author = DB.users[ans.authorEmail];
+  if(author){ author.stats.bestAnswers++; author.karma+=5; }
+  notify(ans.authorEmail, `Your answer was marked as Best Answer on "${post.title}"!`, postId);
+  saveDB(DB, true);
+  toast('Marked as best answer.');
+  renderPostDetail(postId);
+}
+
+/* ============================================================
+   COMMUNITIES
+   ============================================================ */
+function renderCommunities(){
+  document.getElementById('communitiesGrid').innerHTML = allCommunities().map(c=>{
+    const postCount = DB.posts.filter(p=>(c.slug && p.category.toLowerCase().includes(c.slug.slice(0,4))) || p.category===c.name).length;
+    const isCustom = !!c.creatorEmail;
+    return `<div class="glass comm-card">
+      <h4>r/${c.name.replace(/\s/g,'')} ${isCustom?'<span class="senior-tag" style="margin-left:6px;">CUSTOM</span>':''}</h4>
+      <p>${c.desc}</p>
+      <div class="comm-stats"><span>${postCount} discussion${postCount!==1?'s':''}</span></div>
+      <button class="btn btn-outline btn-sm" onclick="go('discussions');setTab('${c.name}')">View Discussions</button>
+    </div>`;
+  }).join('');
+}
+
+/* ============================================================
+   RESOURCES
+   ============================================================ */
+function renderResources(){
+  const cats = ["Notes","Previous Year Questions","Syllabus","Academic Calendar","Timetable","Placement Resources"];
+  document.getElementById('resourcesGrid').innerHTML = cats.map(c=>`
+    <div class="glass comm-card">
+      <h4>📄 ${c}</h4>
+      <p>Nothing uploaded here yet.</p>
+      <button class="btn btn-ghost btn-sm" disabled style="opacity:.5;cursor:not-allowed;">Coming soon</button>
+    </div>`).join('');
+}
+
+/* ============================================================
+   EVENTS / ANNOUNCEMENTS
+   ============================================================ */
+function fmtEventDate(dstr){
+  if(!dstr) return '';
+  const d = new Date(dstr + 'T00:00:00');
+  if(isNaN(d)) return dstr;
+  return d.toLocaleDateString(undefined, {day:'numeric', month:'short', year:'numeric'});
+}
+function renderEvents(){
+  DB.events = DB.events || [];
+  const grid = document.getElementById('eventsGrid');
+  const list = [...DB.events].sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  const today = new Date().toISOString().slice(0,10);
+  const upcoming = list.filter(e=>!e.date || e.date>=today);
+  const past = list.filter(e=>e.date && e.date<today);
+  if(!list.length){
+    grid.innerHTML = `<div class="glass empty-state" style="grid-column:1/-1;">
+      <div class="icon">🗓️</div><h4>No upcoming events yet</h4>
+      <p>Club coordinators and students can add events here once they're announced.</p>
+      <button class="btn btn-primary btn-sm" onclick="openCreateEvent()">+ Add Event</button>
+    </div>`;
+    return;
+  }
+  const u = currentUser();
+  const card = e => `
+    <div class="glass comm-card">
+      <div class="comm-stats" style="margin-bottom:8px;">
+        <span>📅 ${fmtEventDate(e.date) || 'Date TBA'}</span>${e.time?`<span>🕒 ${escapeHtml(e.time)}</span>`:''}
+      </div>
+      <h4>${escapeHtml(e.title)}</h4>
+      <p>${escapeHtml(e.desc||'')}</p>
+      <div class="comm-stats">${e.location?`<span>📍 ${escapeHtml(e.location)}</span>`:''}<span>by ${escapeHtml(e.creatorName||'a student')}</span></div>
+      ${u && e.creatorEmail===u.email ? `<button class="btn btn-ghost btn-sm" onclick="deleteEvent('${e.id}')">Delete</button>` : ''}
+    </div>`;
+  let html = '';
+  html += upcoming.map(card).join('');
+  if(past.length){
+    html += `<div style="grid-column:1/-1;margin:18px 0 4px;font-size:12px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.5px;">Past events</div>`;
+    html += past.map(card).join('');
+  }
+  grid.innerHTML = html;
+}
+function openCreateEvent(){
+  const u = currentUser();
+  if(!u){ toast('Sign in to add an event.'); openAuth('signin'); return; }
+  const overlay = document.createElement('div');
+  overlay.className='overlay'; overlay.id='genericOverlay';
+  overlay.innerHTML = `<div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>Add an Event</h3>
+    <p class="sub">Share a hackathon, workshop or announcement with everyone.</p>
+    <div class="field"><label>Title</label><input id="ev_title" placeholder="e.g. Annual Tech Fest" maxlength="60"></div>
+    <div class="row-2">
+      <div class="field"><label>Date</label><input id="ev_date" type="date"></div>
+      <div class="field"><label>Time (optional)</label><input id="ev_time" placeholder="e.g. 5:00 PM"></div>
+    </div>
+    <div class="field"><label>Location (optional)</label><input id="ev_location" placeholder="e.g. Main Auditorium" maxlength="60"></div>
+    <div class="field"><label>Description</label><textarea id="ev_desc" placeholder="What's happening?" maxlength="300"></textarea></div>
+    <button class="btn btn-primary" style="width:100%" onclick="submitCreateEvent()">Add Event</button>
+  </div>`;
+  document.body.appendChild(overlay);
+}
+function submitCreateEvent(){
+  const u = currentUser();
+  if(!u){ toast('Sign in to add an event.'); return; }
+  const title = document.getElementById('ev_title').value.trim();
+  const date = document.getElementById('ev_date').value;
+  const time = document.getElementById('ev_time').value.trim();
+  const location = document.getElementById('ev_location').value.trim();
+  const desc = document.getElementById('ev_desc').value.trim();
+  if(!title){ toast('Give the event a title.'); return; }
+  DB.events = DB.events || [];
+  DB.events.push({
+    id: crypto.randomUUID(), title, date, time, location, desc,
+    creatorEmail: u.email, creatorName: u.username, createdAt: Date.now()
+  });
+  saveDB(DB, true);
+  closeModal();
+  toast('Event added!');
+  go('events');
+}
+function deleteEvent(eventId){
+  const u = currentUser();
+  const ev = (DB.events||[]).find(e=>e.id===eventId);
+  if(!ev || !u || ev.creatorEmail!==u.email){ toast('You can only delete events you added.'); return; }
+  if(!confirm('Delete this event?')) return;
+  DB.events = DB.events.filter(e=>e.id!==eventId);
+  saveDB(DB, true);
+  toast('Event deleted.');
+  renderEvents();
+}
+
+/* ============================================================
+   MENTORS / SENIOR DIRECTORY
+   ============================================================ */
+function renderMentors(){
+  const branchSel = document.getElementById('mentorBranchFilter');
+  if(branchSel.options.length<=1){
+    branchSel.innerHTML += BRANCHES.map(b=>`<option>${b}</option>`).join('');
+  }
+  const bF = branchSel.value;
+  const yF = document.getElementById('mentorYearFilter').value;
+  let seniors = Object.values(DB.users).filter(u=>u.role==='senior');
+  if(bF) seniors = seniors.filter(u=>u.branch===bF);
+  if(yF) seniors = seniors.filter(u=>u.year===yF);
+  const grid = document.getElementById('mentorsGrid');
+  if(!seniors.length){
+    grid.innerHTML = `<div class="glass empty-state" style="grid-column:1/-1;">
+      <div class="icon">⭐</div><h4>No seniors match yet</h4>
+      <p>As 3rd and 4th year students join  Connect, they'll show up here.</p></div>`;
+    return;
+  }
+  grid.innerHTML = seniors.map(u=>`
+    <div class="glass mentor-card">
+      <div class="avatar" style="background:${avatarColor(u.username)}">${initials(u.username)}</div>
+      <h4>${u.username} <span class="senior-tag">SENIOR</span></h4>
+      <div class="meta">${u.branch} • ${u.year}${u.batch?' • '+u.batch:''}</div>
+      <div style="margin-bottom:14px;">${(u.interests||[]).slice(0,3).map(i=>`<span class="tag-chip">${i}</span>`).join('') || '<span style="font-size:11.5px;color:var(--text-faint);">No topics listed</span>'}</div>
+      <div style="display:flex;gap:8px;justify-content:center;">
+        <button class="btn btn-primary btn-sm" onclick="openAsk()">Ask this Senior</button>
+        <button class="btn btn-ghost btn-sm" onclick="messageUser('${u.email}')">✉️ Message</button>
+      </div>
+    </div>`).join('');
+}
+
+/* ============================================================
+   PROFILE
+   ============================================================ */
+let currentProfileEmail = null;
+let profileTab = 'questions';
+function renderProfile(email){
+  currentProfileEmail = email;
+  const wrap = document.getElementById('profileWrap');
+  if(!email){
+    wrap.innerHTML = `<div class="glass empty-state"><h4>Sign in to view your profile</h4><button class="btn btn-primary" onclick="openAuth('signin')" style="margin-top:10px;">Sign In</button></div>`;
+    return;
+  }
+  const u = DB.users[email];
+  if(!u){ wrap.innerHTML = `<div class="glass empty-state"><h4>User not found</h4></div>`; return; }
+  const viewer = currentUser();
+  const isSelf = viewer && viewer.email===email;
+  wrap.innerHTML = `
+    <div class="glass profile-head">
+      <div class="avatar avatar-lg" style="background:${avatarColor(u.username)}">${initials(u.username)}</div>
+      <div>
+        <h2>${u.username} ${u.role==='senior'?'<span class="senior-tag">SENIOR</span>':''}</h2>
+        <div class="meta">${u.branch} • ${u.year}${u.batch?' • Batch '+u.batch:''} • </div>
+        ${u.bio?`<div class="meta" style="margin-top:6px;">${escapeHtml(u.bio)}</div>`:''}
+      </div>
+      ${!isSelf?`<button class="btn btn-primary btn-sm" style="margin-left:auto;" onclick="messageUser('${email}')">✉️ Message</button>`:''}
+    </div>
+    <div class="stat-grid" style="margin-bottom:24px;">
+      <div class="stat-box"><b>${u.stats.questions}</b><span>Questions Asked</span></div>
+      <div class="stat-box"><b>${u.stats.answers}</b><span>Answers Given</span></div>
+      <div class="stat-box"><b>${u.stats.helpfulVotes}</b><span>Helpful Votes</span></div>
+      <div class="stat-box"><b>${u.stats.bestAnswers}</b><span>Best Answers</span></div>
+    </div>
+    <div class="profile-tabs">
+      <button class="${profileTab==='questions'?'active':''}" onclick="setProfileTab('questions')">Questions</button>
+      <button class="${profileTab==='answers'?'active':''}" onclick="setProfileTab('answers')">Answers</button>
+      <button class="${profileTab==='saved'?'active':''}" onclick="setProfileTab('saved')">Saved</button>
+    </div>
+    <div id="profileTabContent"></div>`;
+  renderProfileTabContent(u);
+}
+function setProfileTab(t){ profileTab=t; renderProfile(currentProfileEmail); }
+function renderProfileTabContent(u){
+  const box = document.getElementById('profileTabContent');
+  let list = [];
+  if(profileTab==='questions') list = DB.posts.filter(p=>p.authorEmail===u.email);
+  else if(profileTab==='answers'){
+    const ans = DB.comments.filter(c=>c.authorEmail===u.email);
+    box.innerHTML = ans.length ? ans.map(a=>{
+      const p = DB.posts.find(pp=>pp.id===a.postId);
+      return `<div class="glass post-card" onclick="go('post','${a.postId}')"><div class="time-txt">Answered • ${timeAgo(a.createdAt)}</div><h4 style="margin-top:6px;">${p?escapeHtml(p.title):'Deleted question'}</h4><div class="desc-txt">${escapeHtml(a.text)}</div></div>`;
+    }).join('') : `<div class="glass empty-state"><h4>No answers yet</h4><p>Help a junior out — browse open questions.</p></div>`;
+    return;
+  }
+  else if(profileTab==='saved') list = DB.posts.filter(p=>p.bookmarks[u.email]);
+
+  box.innerHTML = list.length ? list.map(renderPostCard).join('') : `<div class="glass empty-state"><h4>Nothing here yet</h4><p>${profileTab==='saved'?'Bookmark posts to find them here later.':'Ask your first question to get started.'}</p></div>`;
+}
+
+/* ============================================================
+   SEARCH
+   ============================================================ */
+function openSearch(){
+  const overlay = document.createElement('div');
+  overlay.className='overlay'; overlay.id='genericOverlay';
+  overlay.innerHTML = `<div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>Search  Connect</h3>
+    <div class="field" style="margin-top:16px;"><input id="searchInput" placeholder="Search questions, users, communities..." oninput="doSearch()" autofocus></div>
+    <div id="searchResults" style="max-height:320px;overflow-y:auto;"></div>
+  </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e=>{ if(e.target===overlay) closeModal(); });
+}
+function doSearch(){
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const box = document.getElementById('searchResults');
+  if(!q){ box.innerHTML=''; return; }
+  const posts = DB.posts.filter(p=>p.title.toLowerCase().includes(q) || (p.desc||'').toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
+  const users = Object.values(DB.users).filter(u=>u.username.toLowerCase().includes(q));
+  const comms = COMMUNITIES.filter(c=>c.name.toLowerCase().includes(q));
+  const events = (DB.events||[]).filter(e=>e.title.toLowerCase().includes(q) || (e.desc||'').toLowerCase().includes(q));
+  if(!posts.length && !users.length && !comms.length && !events.length){
+    box.innerHTML = `<p style="font-size:13px;color:var(--text-faint);padding:14px 2px;">No results for "${escapeHtml(q)}".</p>`;
+    return;
+  }
+  let html = '';
+  if(posts.length) html += `<div style="font-size:11px;color:var(--text-faint);margin:12px 0 6px;">QUESTIONS</div>` + posts.slice(0,5).map(p=>`<div class="mini-row" style="cursor:pointer;" onclick="closeModal();go('post','${p.id}')">💬 ${escapeHtml(p.title)}</div>`).join('');
+  if(users.length) html += `<div style="font-size:11px;color:var(--text-faint);margin:12px 0 6px;">USERS</div>` + users.slice(0,5).map(u=>`<div class="mini-row" style="cursor:pointer;" onclick="closeModal();go('profile','${u.email}')">👤 ${u.username}</div>`).join('');
+  if(comms.length) html += `<div style="font-size:11px;color:var(--text-faint);margin:12px 0 6px;">COMMUNITIES</div>` + comms.map(c=>`<div class="mini-row" style="cursor:pointer;" onclick="closeModal();go('communities')">📁 r/${c.name.replace(/\s/g,'')}</div>`).join('');
+  if(events.length) html += `<div style="font-size:11px;color:var(--text-faint);margin:12px 0 6px;">EVENTS</div>` + events.slice(0,5).map(e=>`<div class="mini-row" style="cursor:pointer;" onclick="closeModal();go('events')">🗓️ ${escapeHtml(e.title)}</div>`).join('');
+  box.innerHTML = html;
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+function init(){
+  renderAuthArea();
+  seedEventsIfEmpty();
+  renderHome();
+  document.querySelector('nav.links a[data-view="home"]').classList.add('active');
+  const fy = document.getElementById('footerYear');
+  if(fy) fy.textContent = new Date().getFullYear();
+}
+function seedEventsIfEmpty(){
+  if(!DB.events || !DB.events.length){
+    DB.events = SEED_EVENTS.slice();
+    saveDB(DB, true);
+  }
+}
+/* init() is invoked by the Firebase bootstrap script once auth state
+   and the shared Firestore data have both loaded (see maybeStartApp). */
+</script>
+</body>
+</html>
